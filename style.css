@@ -1,0 +1,600 @@
+﻿/* ============================================================
+   style.css : ไฟล์ตกแต่งหน้าเว็บทั้งหมด
+   ------------------------------------------------------------
+   โครงสร้างไฟล์แบ่งเป็น 8 ส่วน
+     1) ตัวแปรสี + ค่าพื้นฐานของหน้าเว็บ
+     2) ส่วนหัว (header) + แท็บเมนู (tabs) + ปุ่มสลับธีม
+     3) การ์ดเนื้อหาบทเรียน
+     4) แบบฝึกหัด (คำถาม ปุ่มตัวเลือก คำอธิบาย)
+     5) หน้าสรุปคะแนน
+     6) กระดานวาดรูป/คิดเลข (Canvas + พื้นที่พิมพ์สมการ)
+     7) Responsive สำหรับจอมือถือ
+     8) Dark Mode (html.dark = สลับค่าตัวแปรทั้งชุด)
+   ============================================================ */
+
+/* ---------- 1) ตัวแปรสีและค่าพื้นฐาน ----------
+   เก็บสี/มุมโค้ง/เงาไว้ใน :root เพื่อใช้ซ้ำได้ทั่วไฟล์
+   โหมดมืดแค่ "override ตัวแปรชุดเดิม" ใน html.dark ที่ท้ายไฟล์
+   ถ้าจะเปลี่ยนธีมสี แก้ที่นี่ + ท้ายไฟล์ที่เดียวเปลี่ยนทั้งเว็บ */
+:root {
+  --blue-900: #0c4a77;      /* น้ำเงินเข้ม (หัวข้อ ปุ่มกด) */
+  --blue-700: #16619c;      /* น้ำเงินหลัก */
+  --blue-100: #dbeafe;      /* น้ำเงินอ่อน (พื้นหลังป้าย/วง focus) */
+  --ink:     #1f2937;       /* สีตัวอักษรหลัก */
+  --muted:   #5b6b7c;       /* สีตัวอักษรรอง/คำอธิบาย */
+  --bg:      #eaf2f9;       /* สีพื้นหลังหน้าเว็บ */
+  --card:    #ffffff;       /* สีพื้นการ์ด */
+  --accent:  #f59e0b;       /* สีเหลืองทอง (ไฮไลต์) */
+  --green:   #15803d;       /* สีเขียว = ถูกต้อง */
+  --green-bg:#dcfce7;
+  --red:     #dc2626;       /* สีแดง = ผิด */
+  --red-bg:  #fee2e2;
+  --ring-track:#e2ecf5;     /* พื้นวงคะแนน / แถบ progress */
+  --line:    #d7e3ee;       /* เส้นขอบ/เส้นคั่นอ่อน */
+  --soft-bg: #f2f7fb;       /* พื้นหลังชิ้นส่วนรอง */
+  --field-bg:#fbfdff;       /* พื้นหลังช่องกรอก/ปุ่มตัวเลือก */
+  --radius:  14px;
+  --shadow:  0 6px 18px rgba(12, 74, 119, .09);
+}
+
+/* รีเซ็ตค่าเริ่มต้นของ browser ให้ทุก element คำนวณขนาดง่าย */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* attribute hidden ต้องชนะ display ของ class เสมอ
+   (ไม่งั้น .tabs{display:flex} จะทับ [hidden] ทำให้แท็บโชว์ตอนหน้าแรก!) */
+[hidden] { display: none !important; }
+
+body {
+  font-family: 'Prompt', 'Segoe UI', Tahoma, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.65;
+}
+
+/* ---------- 2) ส่วนหัวและแท็บเมนู ---------- */
+.site-header {
+  background: linear-gradient(135deg, var(--blue-900), #1d84c9);
+  color: #fff;
+  text-align: center;
+  padding: 34px 16px 26px;
+}
+.site-header h1 { font-size: clamp(1.7rem, 4vw, 2.6rem); }
+.site-header p  { opacity: .92; margin-top: 6px; font-size: .98rem; }
+
+/* แท็บเมนูติดขอบบนจอเสมอ (sticky) เวลาเลื่อนหน้าลง */
+.tabs {
+  position: sticky; top: 0; z-index: 50;
+  display: flex; justify-content: center; align-items: center; gap: 10px;
+  background: rgba(255, 255, 255, .92);
+  backdrop-filter: blur(6px);
+  padding: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, .06);
+}
+.tab {
+  border: none; background: var(--soft-bg); color: var(--blue-900);
+  padding: 10px 26px; border-radius: 999px;
+  font-family: inherit; font-size: 1rem; font-weight: 500;
+  cursor: pointer; transition: .2s;
+}
+.tab:hover  { filter: brightness(.96); }
+.tab.active { background: var(--blue-700); color: #fff; }
+
+/* ---------- ปุ่มโลโก้ "หน้าแรก" : ลอยมุมซ้ายบน (บ้าน) ----------
+   โชว์เฉพาะตอนอยู่ "ใน" วิชา (hidden ตอนอยู่หน้าแรก)
+   กด = กลับหน้าเลือกวิชา */
+.home-logo {
+  position: fixed; top: 12px; left: 14px; z-index: 90;
+  width: 42px; height: 42px;
+  border: none; border-radius: 12px;
+  background: var(--blue-100); color: var(--blue-900);
+  display: grid; place-items: center;
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(12, 74, 119, .18);
+  transition: transform .15s, filter .15s;
+}
+.home-logo:hover  { transform: translateY(-2px); filter: brightness(1.05); }
+.home-logo:active { transform: scale(.94); }
+.home-logo svg    { width: 22px; height: 22px; }
+
+/* ---------- สวิตช์โหมดมืด/สว่าง : ลอยมุมขวาบนของเว็บ ----------
+   โครงสร้าง : label.theme-switch > checkbox(ซ่อน) + span.switch-track
+   (ไอคอน 2 ตัว + knob) — checked = โหมดมืด
+   z-index 70 = ต่ำกว่าแผงคิดเลข (80) → ตอนแผงเปิด แผงปิดทับสวิตช์
+   ไม่งั้นสวิตช์จะทับปุ่ม × ปิดแผง! */
+.theme-switch {
+  position: fixed; top: 14px; right: 16px; z-index: 70;
+  display: inline-flex; align-items: center;
+  cursor: pointer; user-select: none;
+}
+.theme-switch input { position: absolute; opacity: 0; pointer-events: none; }
+.switch-track {
+  position: relative; width: 58px; height: 30px;
+  border-radius: 999px;
+  background: var(--soft-bg);
+  border: 1.5px solid var(--line);
+  box-shadow: inset 0 1px 4px rgba(12, 74, 119, .12);
+  transition: background .25s, border-color .25s;
+}
+/* ไอคอนประจำฝั่ง : พระจันทร์ซ้าย (โหมดสว่าง) , ดวงอาทิตย์ขวา (โหมดมืด) */
+.switch-track svg {
+  position: absolute; top: 50%; width: 16px; height: 16px;
+  transform: translateY(-50%);
+  opacity: .8; transition: opacity .2s;
+}
+.switch-track .icon-moon { left: 7px;  color: #64748b; }
+.switch-track .icon-sun  { right: 7px; color: var(--accent); }
+/* knob : วงกลมเลื่อนซ้าย-ขวา */
+.switch-knob {
+  position: absolute; top: 50%; left: 3px;
+  width: 22px; height: 22px; border-radius: 50%;
+  background: var(--blue-700);
+  transform: translateY(-50%);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .25);
+  transition: transform .25s ease, background .25s;
+}
+html.dark .switch-track { background: var(--field-bg); }
+html.dark .theme-switch input:not(:checked) + .switch-track .icon-moon,
+.theme-switch input:checked + .switch-track .icon-sun { opacity: .35; }
+.theme-switch input:checked + .switch-track .icon-moon { opacity: .9; }
+.theme-switch input:checked + .switch-track .switch-knob { transform: translate(26px, -50%); }
+
+/* พื้นที่เนื้อหาหลัก จำกัดความกว้างให้อ่านง่ายบนจอใหญ่ */
+main { max-width: 920px; margin: 0 auto; padding: 24px 16px 60px; }
+
+/* ระบบ "หน้า" : แสดงเฉพาะ section ที่มี class active */
+.page { display: none; }
+.page.active { display: block; animation: fadeIn .35s ease; }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 22px;
+}
+
+/* ---------- 3) การ์ดเนื้อหาบทเรียน ---------- */
+.lesson-card { margin-bottom: 22px; }
+.lesson-card h2 {
+  color: var(--blue-900); font-size: 1.3rem;
+  margin-bottom: 10px; padding-bottom: 8px;
+  border-bottom: 3px solid var(--blue-100);
+}
+.lesson-card ul { padding-left: 22px; margin-top: 8px; }
+.lesson-card li { margin: 4px 0; }
+
+/* กล่องสูตร : จัดกึ่งกลาง เส้นประรอบให้สะดุดตา */
+.formula {
+  font-size: 1.45rem; font-weight: 600; text-align: center;
+  color: var(--blue-900); background: var(--soft-bg);
+  border: 2px dashed var(--line); border-radius: 10px;
+  padding: 12px; margin: 14px 0;
+}
+
+/* แถบสรุปใจความสำคัญ สีเหลืองทอง */
+.key-point {
+  background: var(--accent); color: #fff;
+  border-radius: 10px; padding: 10px 14px; margin-top: 12px;
+}
+
+.figure { text-align: center; margin: 14px 0; }
+.figure svg { max-width: 100%; height: auto; }
+.figure figcaption { color: var(--muted); font-size: .9rem; margin-top: 6px; }
+
+.example-box {
+  background: var(--green-bg); border-left: 5px solid var(--green);
+  border-radius: 8px; padding: 10px 14px; margin-top: 12px; font-size: .97rem;
+}
+
+.app-list li { margin: 10px 0; }
+
+.summary-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: .95rem; }
+.summary-table th { background: var(--blue-700); color: #fff; padding: 9px; }
+.summary-table td { border: 1px solid var(--line); padding: 9px; text-align: center; }
+.summary-table tr:nth-child(even) td { background: var(--soft-bg); }
+.cta-hint { text-align: center; color: var(--muted); margin-top: 14px; font-style: italic; }
+
+/* ---------- 3.1) หน้าแรก : เลือกวิชา ---------- */
+.home-hero { text-align: center; padding: 30px 10px 4px; }
+.home-hero h2 { color: var(--blue-900); font-size: clamp(1.5rem, 4vw, 2.2rem); }
+.home-hero p  { color: var(--muted); margin-top: 6px; }
+
+/* กริดการ์ดวิชา : จัดอัตโนมัติตามความกว้างจอ */
+.subject-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 18px;
+  margin-top: 20px;
+}
+
+.subject-card {
+  position: relative;
+  display: flex; flex-direction: column; gap: 10px;
+  background: var(--card);
+  border: 2px solid transparent;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 20px;
+  cursor: pointer;
+  transition: transform .2s, border-color .2s, box-shadow .2s;
+}
+.subject-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--blue-700);
+  box-shadow: 0 12px 26px rgba(12, 74, 119, .16);
+}
+
+/* การ์ดวิชาที่ยังไม่เปิด : จางลง กดไม่ได้ */
+.subject-card.locked { opacity: .55; cursor: default; filter: grayscale(.35); }
+.subject-card.locked:hover { transform: none; border-color: transparent; box-shadow: var(--shadow); }
+
+/* ป้าย "เร็วๆ นี้" มุมการ์ด */
+.soon-badge {
+  position: absolute; top: 14px; right: 14px;
+  font-size: .72rem; font-weight: 600;
+  background: var(--accent); color: #1f2937;
+  padding: 3px 10px; border-radius: 999px;
+}
+
+/* กล่องไอคอนวิชา */
+.subject-icon {
+  width: 54px; height: 54px;
+  border-radius: 14px;
+  background: var(--blue-100); color: var(--blue-900);
+  display: grid; place-items: center;
+}
+.subject-icon svg { width: 30px; height: 30px; }
+
+.subject-card h3 { color: var(--blue-900); font-size: 1.05rem; line-height: 1.45; }
+.subject-card p  { color: var(--muted); font-size: .88rem; flex: 1; }
+
+/* ชิปข้อมูลย่อ (จำนวนหัวข้อ/โจทย์) */
+.subject-meta { display: flex; flex-wrap: wrap; gap: 6px; }
+.subject-meta span {
+  font-size: .74rem;
+  background: var(--soft-bg); color: var(--muted);
+  padding: 3px 10px; border-radius: 999px;
+}
+
+/* ลิงก์ "เข้าเรียน" ท้ายการ์ด */
+.subject-enter {
+  color: var(--blue-700); font-weight: 600; font-size: .9rem;
+  transition: transform .15s;
+}
+.subject-card:hover .subject-enter { transform: translateX(4px); }
+
+/* ---------- 4) แบบฝึกหัด ---------- */
+
+/* แถวบอกสถานะ : ข้อที่เท่าไร + คะแนนสะสม */
+.quiz-meta {
+  display: flex; justify-content: space-between;
+  color: var(--muted); font-size: .93rem; margin-bottom: 8px;
+}
+
+.question-text { font-size: 1.18rem; font-weight: 600; margin: 6px 0 14px; line-height: 1.6; }
+
+/* กล่องภาพประกอบโจทย์ (SVG) */
+.question-image {
+  background: var(--field-bg); border: 1px solid var(--line);
+  border-radius: 10px; padding: 8px; margin-bottom: 16px;
+}
+.question-image svg { display: block; width: 100%; height: auto; }
+
+/* ปุ่มตัวเลือก A B C D เรียงแนวตั้งด้วย grid */
+.choices { display: grid; gap: 10px; }
+.choice-btn {
+  display: flex; align-items: center; gap: 12px;
+  width: 100%; text-align: left; padding: 12px 14px;
+  font-family: inherit; font-size: 1rem; color: var(--ink);
+  background: var(--field-bg); border: 2px solid var(--line);
+  border-radius: 12px; cursor: pointer; transition: .15s;
+}
+.choice-btn:hover:not(:disabled) { border-color: var(--blue-700); transform: translateY(-1px); }
+.choice-btn:disabled { cursor: default; opacity: .85; }
+
+/* วงกลมตัวอักษร A/B/C/D ด้านหน้าปุ่ม */
+.choice-key {
+  flex: none; width: 30px; height: 30px;
+  display: grid; place-items: center;
+  background: var(--blue-100); color: var(--blue-900);
+  font-weight: 600; border-radius: 50%;
+}
+
+/* สถานะหลังตอบ : เขียว = ข้อที่ถูก , แดง = ข้อที่เลือกผิด (มีอนิเมชันสั่น) */
+.choice-btn.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); opacity: 1; }
+.choice-btn.correct .choice-key { background: var(--green); color: #fff; }
+.choice-btn.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); animation: shake .3s; }
+.choice-btn.wrong .choice-key { background: var(--red); color: #fff; }
+@keyframes shake {
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+/* กล่องคำอธิบายหลังตอบ */
+.feedback {
+  margin-top: 14px; padding: 12px 14px;
+  border-radius: 10px; font-size: .97rem; line-height: 1.7;
+}
+.feedback.good { background: var(--green-bg); border-left: 6px solid var(--green); }
+.feedback.bad  { background: var(--red-bg);   border-left: 6px solid var(--red); }
+
+.btn-primary {
+  display: block; margin: 16px auto 0; padding: 11px 34px;
+  font-family: inherit; font-size: 1rem; font-weight: 600;
+  color: #fff; background: var(--blue-700);
+  border: none; border-radius: 999px; cursor: pointer; transition: .2s;
+}
+.btn-primary:hover { filter: brightness(1.15); transform: translateY(-1px); }
+
+/* แถบความคืบหน้าการทำข้อสอบ */
+.progress-bar { height: 10px; background: var(--ring-track); border-radius: 999px; overflow: hidden; margin-bottom: 12px; }
+.progress-fill {
+  height: 100%; width: 0;
+  background: linear-gradient(90deg, var(--accent), #fbbf24);
+  transition: width .4s;
+}
+
+/* ---------- 5) หน้าสรุปคะแนน ---------- */
+.result-card { text-align: center; }
+.result-card h2 { color: var(--blue-900); }
+
+/* วงกลมเปอร์เซ็นต์ : script.js จะใส่ conic-gradient ตามคะแนน
+   (สีพื้นวงใช้ var(--ring-track) เพื่อสลับธีมได้) */
+.score-ring {
+  width: 170px; height: 170px; border-radius: 50%;
+  display: grid; place-items: center; margin: 18px auto;
+}
+.score-inner {
+  width: 130px; height: 130px; background: var(--card); border-radius: 50%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+}
+.score-inner span  { font-size: 1.9rem; font-weight: 700; color: var(--blue-900); }
+.score-inner small { color: var(--muted); }
+.result-message    { font-size: 1.05rem; margin-bottom: 6px; }
+
+/* ---------- 6) แผงพื้นที่คิดเลข/วาดรูป (ด้านขวา เปิด-ปิดได้) ---------- */
+
+/* ปุ่มลอยมุมขวาล่าง : ใช้เปิดแผง */
+.pad-toggle {
+  position: fixed; right: 18px; bottom: 18px; z-index: 78;
+  padding: 12px 22px; font-family: inherit; font-size: 1rem; font-weight: 600;
+  color: #fff; background: var(--blue-700); border: none; border-radius: 999px;
+  box-shadow: var(--shadow); cursor: pointer; transition: .2s;
+}
+.pad-toggle:hover { filter: brightness(1.15); transform: translateY(-2px); }
+.pad-toggle.hidden { display: none; }        /* ซ่อนปุ่มตอนแผงเปิดอยู่ */
+
+/* แผงหลัก : ติดขอบขวาจอ สูงเต็มจอ
+   ปกติถูกเลื่อนออกนอกจอด้วย translateX(105%)
+   พอใส่ class "open" จะเลื่อนเข้ามา (transition ทำให้ลื่น) */
+#scratchpad {
+  position: fixed; top: 0; right: 0; z-index: 80;
+  width: min(560px, 100vw);          /* ขยายให้กว้างขึ้นสำหรับพิมพ์/วาด */
+  height: 100vh;
+  background: var(--card);
+  box-shadow: -8px 0 28px rgba(12, 74, 119, .18);
+  padding: 14px;
+  overflow-y: auto;
+  display: flex; flex-direction: column; gap: 10px;
+  transform: translateX(105%);
+  transition: transform .32s ease;
+}
+#scratchpad.open { transform: translateX(0); }
+
+/* หัวแผง : ชื่อ + ปุ่มปิด x */
+.pad-head { display: flex; justify-content: space-between; align-items: center; }
+.pad-head h3 { color: var(--blue-900); font-size: 1.05rem; }
+.pad-close {
+  width: 34px; height: 34px; border: none; border-radius: 50%;
+  background: var(--soft-bg); color: var(--ink);
+  font-size: 1.25rem; line-height: 1; cursor: pointer; transition: .15s;
+}
+.pad-close:hover { background: var(--red-bg); color: var(--red); }
+
+.toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.tool-btn {
+  font-family: inherit; font-size: .9rem; padding: 7px 14px;
+  border: 1.5px solid var(--line); background: transparent; color: var(--ink);
+  border-radius: 999px; cursor: pointer; transition: .15s;
+}
+.tool-btn:hover { border-color: var(--blue-700); }
+.tool-btn.active { background: var(--blue-700); border-color: var(--blue-700); color: #fff; }
+.tool-btn.danger { color: var(--red); border-color: var(--red); }
+.tool-btn.danger:hover { background: var(--red-bg); }
+
+/* กล่องปรับขนาดหัวปากกา/ยางลบ */
+.size-control {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: .85rem; color: var(--muted);
+  background: var(--soft-bg); border-radius: 999px; padding: 5px 12px;
+}
+.size-control input[type="range"] {
+  width: 90px; accent-color: var(--blue-700); cursor: pointer;
+}
+#size-value { min-width: 20px; text-align: center; font-weight: 600; color: var(--blue-900); }
+
+/* วงกลมเลือกสีปากกา : active = มีวงแหวนน้ำเงินรอบ */
+.swatches { display: inline-flex; gap: 6px; }
+.swatch {
+  width: 24px; height: 24px; border-radius: 50%;
+  border: 2px solid var(--card); outline: 2px solid transparent;
+  cursor: pointer; transition: .15s;
+}
+.swatch.active { outline-color: var(--blue-700); }
+
+/* ผืนผ้าใบ :
+   - touch-action:none = ไม่ให้จอมือถือ scroll ขณะใช้นิ้ววาด
+   - cursor:none      = ซ่อนเคอร์เซอร์เดิม ให้วงกลมพรีวิวทำหน้าที่แทน
+   - พื้น "สีกระดาษ" วาดด้วย CSS (bitmap โปร่งใสเก็บเฉพาะเส้น)
+     → โหมดมืดแค่เปลี่ยน background ภาพที่วาดไว้จึงไม่หาย */
+#sketch-canvas {
+  width: 100%; height: auto; display: block; flex: none;
+  border: 1px solid var(--line); border-radius: 10px;
+  touch-action: none; cursor: none; background: #fffdf6;
+}
+html.dark #sketch-canvas { background: #1b2433; }
+
+/* ---------- ช่องพิมพ์คำนวณแบบรวม (contenteditable) ----------
+   พิมพ์ ^ _ a/b แล้วระบบแปลงเป็นยกกำลัง/ตัวห้อย/เศษส่วนในที่เดียว */
+.type-label { font-size: .85rem; color: var(--muted); }
+#calc-editor {
+  flex: 1; min-height: 180px;
+  font-family: 'Prompt', 'Segoe UI', Tahoma, sans-serif;
+  font-size: 1rem; line-height: 1.8;
+  border: 1.5px solid var(--line); border-radius: 10px;
+  padding: 12px; background: var(--field-bg); color: var(--ink);
+  outline: none;
+  white-space: pre-wrap; word-wrap: break-word;
+  overflow-y: auto;
+}
+#calc-editor:focus {
+  border-color: var(--blue-700);
+  box-shadow: 0 0 0 3px var(--blue-100);
+}
+#calc-editor:empty:before {
+  content: attr(data-placeholder);
+  color: var(--muted);
+  font-style: italic;
+  pointer-events: none;
+}
+
+/* สไตล์ภายใน editor สำหรับสมการที่จัดรูปแบบแล้ว */
+#calc-editor sup { font-size: .75em; }
+#calc-editor sub { font-size: .75em; }
+#calc-editor .frac {
+  display: inline-flex; flex-direction: column;
+  text-align: center; vertical-align: -0.55em;
+  margin: 0 .18em; line-height: 1.25;
+  white-space: nowrap;               /* กันเศษส่วนถูกตัดคำข้ามบรรทัด */
+}
+#calc-editor .frac > .num { border-bottom: 1.5px solid currentColor; padding: 0 .3em; }
+#calc-editor .frac > .den { padding: 0 .3em; }
+
+/* ---------- 6.1) ชั้นวาดบนภาพโจทย์ ---------- */
+
+/* โซนโจทย์ (คำถาม + ภาพ) : เป็นจุดอ้างอิงให้ canvas วางทับได้ทั้งโซน
+   padding/min-height = ขยายพื้นที่วาดรอบโจทย์ให้กว้างขึ้น */
+.annotate-zone { position: relative; padding: 24px; min-height: 220px; }
+
+/* canvas โปร่งใสทับภาพ
+   - pointer-events:none = ปกติ "ไม่รับ" การแตะ/คลิก (scroll หน้าได้ปกติ)
+   - .active = โหมดวาดเปิด → เริ่มรับ event + ซ่อนเคอร์เซอร์เดิม */
+.annotate-canvas {
+  position: absolute; top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  touch-action: none;
+}
+.annotate-canvas.active {
+  pointer-events: auto;
+  cursor: none;                                   /* ให้วงกลมพรีวิวแทน */
+  outline: 2px dashed var(--accent);
+  outline-offset: -2px;
+  border-radius: 10px;
+}
+
+/* ให้พื้นที่คำถามและภาพมีระยะห่างจากขอบ canvas เล็กน้อย */
+.annotate-zone > .question-text { margin-top: 0; }
+.annotate-zone > .question-image { margin-top: 12px; margin-bottom: 12px; }
+
+/* แถบปุ่มของชั้นวาดบนโจทย์ */
+.annotate-bar {
+  display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+  margin-top: 10px;
+}
+.annotate-hint { color: var(--muted); font-size: .82rem; }
+
+/* วงกลมพรีวิวขนาดปากกา/ยางลบ : ลอยตามเมาส์บน canvas
+   pointer-events:none = ไม่บังการคลิก, translate(-50%,-50%) = จุดศูนย์กลางตรงเมาส์ */
+#brush-cursor {
+  position: fixed; z-index: 81;
+  pointer-events: none;
+  border: 1.5px solid rgba(31, 41, 55, .75);
+  background: rgba(255, 255, 255, .15);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* ---------- ส่วนท้ายเว็บ ---------- */
+.site-footer {
+  text-align: center; color: var(--muted); font-size: .88rem;
+  padding: 18px; border-top: 1px solid var(--line);
+}
+
+/* ---------- 7) Responsive : ปรับสำหรับจอมือถือ ----------
+   เมื่อความกว้างจอ <= 600px ให้ลดขนาดฟอนต์/ช่องว่างลง */
+@media (max-width: 600px) {
+  .site-header { padding: 24px 12px 20px; }
+  .tab { padding: 9px 18px; font-size: .92rem; }
+  .card { padding: 16px; }
+  .formula { font-size: 1.2rem; }
+  .question-text { font-size: 1.05rem; }
+  .annotate-zone { padding: 14px; min-height: 160px; }  /* พื้นที่วาดพอดีมือถือ */
+  #calc-editor { min-height: 120px; }                   /* ช่องพิมพ์สูงพอดีจอ */
+}
+
+/* ============================================================
+   8) DARK MODE : สลับโดยใส่ class "dark" ที่ <html>
+   ------------------------------------------------------------
+   ปุ่ม #theme-toggle จะ toggle คลาสนี้ + จำค่าไว้ใน localStorage
+   หลักการ : override ตัวแปรสีชุดเดิม → ทุกส่วนของเว็บปรับตามทันที
+   ============================================================ */
+html.dark {
+  --blue-900: #8ec9f5;      /* หัวข้อต้อง "สว่าง" บนพื้นเข้มจึงอ่านออก */
+  --blue-700: #3d8fd6;
+  --blue-100: #22374e;
+  --ink:     #e7eef6;
+  --muted:   #96a7bb;
+  --bg:      #0e1725;
+  --card:    #182435;
+  --accent:  #f59e0b;
+  --green:   #4ade80;
+  --green-bg:#10331f;
+  --red:     #f87171;
+  --red-bg:  #3b151b;
+  --ring-track:#26364c;
+  --line:    #2c3d52;
+  --soft-bg: #1f2d40;
+  --field-bg:#1c2939;
+  --shadow:  0 6px 18px rgba(0, 0, 0, .45);
+
+  color-scheme: dark;       /* scrollbar/ฟอร์มของ browser ปรับตามด้วย */
+}
+
+/* ชิ้นส่วนที่ hardcode สีไว้เฉพาะบางที่ ต้อง override เพิ่ม */
+html.dark .site-header { background: linear-gradient(135deg, #071c30, #14507f); }
+html.dark .tabs        { background: rgba(14, 23, 37, .92); box-shadow: 0 2px 10px rgba(0,0,0,.35); }
+html.dark .tab         { background: var(--soft-bg); color: var(--ink); }
+/* สำคัญ! : html.dark .tab มี specificity (0,2,1) สูงกว่า .tab.active (0,2,0)
+   ถ้าไม่ override แบบนี้ แท็บ active กับปกติจะสีเดียวกันหมด
+   = โหมดมืดไม่บอกว่าอยู่หน้าไหน */
+html.dark .tab.active  { background: var(--blue-700); color: #fff; }
+html.dark .key-point   { color: #1f2937; }          /* เหลืองทองพื้นสว่าง ตัวอักษรเข้มอ่านชัดกว่า */
+html.dark .soon-badge  { color: #1f2937; }
+html.dark .subject-card:hover { box-shadow: 0 12px 26px rgba(0, 0, 0, .5); }
+html.dark .progress-fill { background: linear-gradient(90deg, #d97706, var(--accent)); }
+html.dark .tool-btn.danger { border-color: #6b2730; }
+html.dark #brush-cursor    { border-color: rgba(255, 255, 255, .75); }
+
+/* โหมดมืด : hover/กดปุ่มต้อง "สว่างขึ้น" ไม่ใช่มืดลงเหมือนโหมดสว่าง
+   (brightness(.96) บนพื้นเข้มมองแทบไม่เห็น = ไม่มี highlight) */
+html.dark .tab:hover,
+html.dark .tool-btn:hover,
+html.dark .pad-close:hover,
+html.dark .home-logo:hover { filter: brightness(1.35); }
+html.dark .choice-btn:hover:not(:disabled) {
+  border-color: var(--blue-700);
+  background: #223350;                 /* การ์ดตัวเลือกสว่างขึ้นชัดเจน */
+}
+html.dark .choice-btn:active:not(:disabled) { background: #2a3f60; }
+html.dark .theme-switch:hover .switch-track { filter: brightness(1.3); }
+
+html.dark .btn-primary:hover,
+html.dark .pad-toggle:hover,
+html.dark .tab.active:hover { filter: brightness(1.2); }
+
+/* วงกลมคะแนน : script.js อ้าง var(--ring-track) อยู่แล้วจึงสลับเอง
+   ตัวเลข % ใช้ --blue-900 สว่างบนพื้นการ์ดเข้มโดยอัตโนมัติ */

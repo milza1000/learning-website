@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<!-- ============================================================
+     index.html : ไฟล์หน้าเว็บหลัก (โครงสร้างเนื้อหา)
+     เว็บทบทวนฟิสิกส์ เรื่อง "พลศาสตร์ของไหล"
+
+     โครงสร้างแบ่งเป็น 3 ส่วนหลัก
+       1) ส่วนหัว (header) + เมนูแท็บ (nav)
+       2) เนื้อหาบทเรียน            -> section#lesson-section
+       3) แบบฝึกหัด + กระดานวาดรูป  -> section#quiz-section
+
+     การตกแต่งอยู่ที่ style.css / ตรรกะการทำงานอยู่ที่ script.js
+     ============================================================ -->
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <!-- viewport : ทำให้เว็บแสดงผลได้ถูกต้องบนหน้าจอมือถือ -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- color-scheme : บอก browser ว่ารองรับทั้งโหมดสว่าง/มืด (ฟอร์ม scrollbar ฯลฯ ปรับตาม) -->
+  <meta name="color-scheme" content="light dark" />
+  <title>พลศาสตร์ของไหล | ฟิสิกส์ทบทวน</title>
+
+  <!-- ฟอนต์ภาษาไทย "Prompt" จาก Google Fonts (ไม่มีเน็ตจะใช้ฟอนต์สำรองแทนอัตโนมัติ) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- ไฟล์ CSS สำหรับตกแต่งหน้าเว็บ -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- ==================== 1) ส่วนหัวของเว็บ ==================== -->
+  <header class="site-header">
+    <h1>ห้องเรียนทบทวนออนไลน์</h1>
+    <p>เลือกวิชาที่ต้องการ • เรียนเนื้อหา ทำแบบฝึกหัด พร้อมพื้นที่คิดเลขและวาดรูปในตัว</p>
+  </header>
+
+  <!-- ============ ปุ่มโลโก้ "หน้าแรก" : ลอยมุมซ้ายบน ============
+       โชว์เฉพาะตอนอยู่ในวิชา (script.js สลับ hidden) กด = กลับหน้าเลือกวิชา -->
+  <button id="home-logo" class="home-logo" hidden aria-label="กลับหน้าแรก" title="กลับหน้าแรก">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M3 10.5 12 3l9 7.5"/>
+      <path d="M5 9.5V21h14V9.5"/>
+      <path d="M9.5 21v-6h5v6"/>
+    </svg>
+  </button>
+
+  <!-- ============ เมนูแท็บ : โชว์เฉพาะหลังเข้าวิชาแล้ว ============ -->
+  <nav class="tabs" id="main-tabs" hidden>
+    <button id="tab-lesson" class="tab active">เนื้อหาบทเรียน</button>
+    <button id="tab-quiz" class="tab">แบบฝึกหัด</button>
+  </nav>
+
+  <!-- ============ สวิตช์โหมดมืด/สว่าง : ลอยมุมขวาบนของเว็บ ============
+       checkbox (ซ่อน) + track/knob = สวิตช์เลื่อนได้
+       - โหมดสว่าง : knob อยู่ซ้าย เห็นไอคอนพระจันทร์ (กดแล้วเป็นมืด)
+       - โหมดมืด   : knob อยู่ขวา เห็นไอคอนดวงอาทิตย์ (กดแล้วกลับสว่าง)
+       script.js ผูก change event แล้วจำค่าไว้ใน localStorage -->
+  <label class="theme-switch" title="สลับโหมดมืด/สว่าง">
+    <input type="checkbox" id="theme-toggle" aria-label="สลับโหมดมืด/สว่าง" />
+    <span class="switch-track">
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      </svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="4"/>
+        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+      </svg>
+      <span class="switch-knob"></span>
+    </span>
+  </label>
+
+  <main>
+
+    <!-- ====================================================
+         SECTION 0 : หน้าแรก (เลือกวิชา)
+         การ์ดวิชาถูกสร้างโดย script.js จาก array "subjects"
+         (เพิ่มวิชาใหม่ = เพิ่มข้อมูลใน script.js ที่เดียว)
+         อยู่ "ใน" main เพื่อโดนจัดกึ่งกลาง + มีระยะขอบเท่าหน้าอื่น
+         ==================================================== -->
+    <section id="home-section" class="page active">
+      <div class="home-hero">
+        <h2>เลือกวิชาที่ต้องการทบทวน</h2>
+        <p>เรียนเนื้อหา ทำแบบฝึกหัดตรวจทันที พร้อมพื้นที่คิดเลขและวาดรูปในตัว</p>
+      </div>
+      <div id="subject-grid" class="subject-grid">
+        <!-- script.js เติมการ์ดวิชาตรงนี้ -->
+      </div>
+    </section>
+
+    <!-- ====================================================
+         SECTION 1 : เนื้อหาบทเรียน (สื่อการสอน)
+         แต่ละหัวข้ออยู่ใน "การ์ด" (article.lesson-card)
+         ==================================================== -->
+    <section id="lesson-section" class="page">
+
+      <!-- การ์ดที่ 1 : ความหนาแน่น (หน้า 1-2) -->
+      <article class="lesson-card card">
+        <h2>1) ความหนาแน่น (Density)</h2>
+        <p>ความหนาแน่น คือ อัตราส่วนระหว่างมวลต่อปริมาตร โดยปริมาตรหาได้จาก V = A×h (พื้นที่หน้าตัดคูณความสูง) หรือลูกบาศก์ V = a×a×a</p>
+        <div class="formula">ρ = m/V &nbsp;&nbsp;(หน่วย kg/m³)</div>
+        <ul>
+          <li><b>ρ</b> = ความหนาแน่น (kg/m³)</li>
+          <li><b>m</b> = มวล (kg)</li>
+          <li><b>V</b> = ปริมาตร (m³)</li>
+          <li><b>ความหนาแน่นสัมพัทธ์ (S.G.)</b> = ρ<sub>สาร</sub>/ρ<sub>น้ำ</sub> — ใช้น้ำบริสุทธิ์ที่ 4°C (ρ = 1×10³ kg/m³) เป็นสารอ้างอิง</li>
+        </ul>
+        <div class="example-box">
+          <b>ตัวอย่าง :</b> ปรอท ρ = 13.6×10³ kg/m³ ⇒ ความหนาแน่นสัมพัทธ์ = 13.6×10³ ÷ 1×10³ = <b>13.6</b> (หนาแน่นเป็น 13.6 เท่าของน้ำ)<br>
+          <b>ตัวอย่าง :</b> บอลลูนฮีเลียม V = 400 m³ มวล 65 kg ⇒ ρ = 65/400 = <b>0.16 kg/m³</b><br>
+          <b>ตัวอย่าง :</b> ไม้ V = 1 m³ S.G. = 0.15 ⇒ ρ<sub>ไม้</sub> = 150 kg/m³ ⇒ น้ำหนัก W = mg = 150×10 = <b>1.5×10³ N</b>
+        </div>
+      </article>
+
+      <!-- การ์ดที่ 2 : ความดัน (หน้า 1) -->
+      <article class="lesson-card card">
+        <h2>2) ความดัน (Pressure)</h2>
+        <p><b>แรงดัน (F)</b> คือ แรงหรือน้ำหนักทั้งหมดที่กดลงบนพื้นที่ ส่วน <b>ความดัน (P)</b> คือ แรงดันบนพื้นที่ 1 ตารางหน่วย</p>
+        <div class="formula">P = F/A &nbsp;&nbsp;(หน่วย N/m² = Pa)</div>
+        <ul>
+          <li><b>P</b> = ความดัน (Pa หรือ ปาสคาล)</li>
+          <li><b>F</b> = แรง (N)</li>
+          <li><b>A</b> = พื้นที่ที่ถูกกระทำ (m²)</li>
+        </ul>
+        <p class="key-point">หน่วยที่ต้องจำ : 1 Pa = 1 N/m² • 1 Bar = 1×10⁵ Pa • 1 atm = 1.013 Bar = 1.013×10⁵ Pa (คำนวณทั่วไปประมาณ 1 atm ≈ 1×10⁵ Pa)</p>
+      </article>
+
+      <!-- การ์ดที่ 3 : ความดันในของเหลว (หน้า 3-4) -->
+      <article class="lesson-card card">
+        <h2>3) ความดันในของเหลว</h2>
+        <p>ความดันในของเหลวขึ้นอยู่กับความลึก — ยิ่งลึกมาก ความดันยิ่งมาก</p>
+        <div class="formula">P<sub>g</sub> = ρgh &nbsp;&nbsp;และ&nbsp;&nbsp; ΣP = P<sub>atm</sub> + P<sub>g</sub></div>
+        <ul>
+          <li><b>ความดันเกจ (P<sub>g</sub>)</b> = ความดันที่ระดับความลึก h จากน้ำหนักของเหลวที่กดลงมา</li>
+          <li><b>ความดันสัมบูรณ์ (ΣP)</b> = ความดันบรรยากาศ + ความดันเกจ</li>
+          <li><b>P<sub>atm</sub></b> ≈ 1×10⁵ Pa , <b>g</b> ≈ 10 m/s²</li>
+          <li>บอกความดันบรรยากาศได้ 3 วิธี : หน่วยความดัน / ความสูงของปรอท / ความสูงของน้ำ</li>
+        </ul>
+        <div class="example-box">
+          <b>ตัวอย่าง :</b> ภาชนะลูกบาศก์ 10 cm ใส่น้ำ+น้ำมันอย่างละครึ่ง (ρ<sub>น้ำ</sub>=10³, ρ<sub>น้ำมัน</sub>=600) ⇒ ΣP<sub>g</sub> = (10³·10·0.05)+(600·10·0.05) = 500+300 = <b>800 Pa</b><br>
+          <b>ตัวอย่าง :</b> ส่งน้ำขึ้นเนินสูง 40 m ⇒ P<sub>g</sub> = 10³×10×40 = <b>4×10⁵ Pa</b><br>
+          <b>ตัวอย่าง :</b> เรือดำน้ำลึก 100 m (ρ<sub>ทะเล</sub>=1.024×10³) ⇒ P<sub>g</sub> = <b>1.024×10⁶ Pa</b> , P<sub>abs</sub> = 1.013×10⁵+1.024×10⁶ = <b>≈1.125×10⁶ Pa</b>
+        </div>
+      </article>
+
+      <!-- การ์ดที่ 4 : เครื่องวัดความดัน (หน้า 5-6) -->
+      <article class="lesson-card card">
+        <h2>4) เครื่องวัดความดัน</h2>
+        <ul class="app-list">
+          <li><b>1. แมนอมิเตอร์ (Manometer)</b> — หลอดแก้วรูปตัวยู ปลายข้างหนึ่งต่อความดันที่ต้องการ อีกข้างเปิดสู่บรรยากาศ ตั้งสมการจาก ΣP₁ = ΣP₂</li>
+          <li><b>2. บารอมิเตอร์ปรอท (Mercury Barometer)</b> — หลอดยาว ~80 cm บรรจุปรอทคว่ำในอ่าง เกิดสุญญากาศด้านบน ที่ 1 atm ปรอทสูง <b>760 mmHg</b> จาก P<sub>atm</sub> = ρgh</li>
+          <li><b>3. บารอมิเตอร์แอนีรอยด์ (Aneroid)</b> — กล่องโลหะความดันต่ำ ยุบ/พองตามความดันภายนอก ดันเข็มชี้</li>
+          <li><b>4. อัลติมิเตอร์ (Altimeter)</b> — ดัดแปลงจากแอนีรอยด์ ใช้วัดความสูง/เพดานบินเครื่องบิน</li>
+          <li><b>5. เครื่องวัดบูร์ดอน (Bourdon Gauge)</b> — ท่อกลวงรูปก้นหอย ความดันสูงทำท่อยืด เข็มเบน ใช้วัดความดันสูง</li>
+        </ul>
+        <div class="formula">ΣP<sub>x</sub> = ΣP<sub>y</sub> &nbsp;⇒&nbsp; P + ρ₁gh₁ = P₂ + ρ₂gh₂</div>
+      </article>
+
+      <!-- การ์ดที่ 5 : หลอดรูปตัวยู (หน้า 7-8) -->
+      <article class="lesson-card card">
+        <h2>5) โจทย์หลอดรูปตัวยู</h2>
+        <p>ที่ระดับรอยต่อของเหลวเดียวกัน ความดันต้องเท่ากัน จึได้ความสัมพันธ์สำคัญ</p>
+        <div class="formula">ρ₁gh₁ = ρ₂gh₂ &nbsp;⇒&nbsp; ρ₁/ρ₂ = h₂/h₁</div>
+        <div class="example-box">
+          <b>ตัวอย่าง 1 :</b> ของเหลว 2 ชนิดในหลอดยู ชนิดหนาแน่นสูงเป็นครึ่งของอีกชนิด ⇒ ρ<sub>มาก</sub>/ρ<sub>น้อย</sub> = h<sub>น้อย</sub>/h<sub>มาก</sub> = <b>2 เท่า</b><br>
+          <b>ตัวอย่าง 2 :</b> เทของเหลวสูง 10 cm ลงในขาปรอท ปรอทฝั่งนั้นลด 2 cm (อีกฝั่งสูงขึ้น 2 cm ⇒ h<sub>Hg</sub> = 4 cm) ⇒ ρ<sub>A</sub> = 13.6×10³ × 4/10 = <b>5.44×10³ kg/m³</b><br>
+          <b>ตัวอย่าง 3 :</b> หลอดยูใส่น้ำ เติมน้ำมัน ρ=800 ระดับต่างกัน 8 cm ⇒ h<sub>oil</sub> = (10³×8)/800 = 10 cm ⇒ V = 1.50 cm² × 10 cm = <b>15 cm³</b>
+        </div>
+      </article>
+
+      <!-- การ์ดที่ 6 : แรงดันบนเขื่อน (หน้า 9-11) -->
+      <article class="lesson-card card">
+        <h2>6) แรงดันบนเขื่อนและประตูกั้นน้ำ</h2>
+        <p>ความดันที่ผนังเขื่อนเพิ่มจาก 0 (ผิวน้ำ) ถึง ρgH (ก้นเขื่อน) จึงใช้ความดันเฉลี่ย ½ρgH คูณพื้นที่หน้าสัมผัส L×H</p>
+        <div class="formula">F = ½ ρ g L H²</div>
+        <ul>
+          <li><b>F</b> = แรงดันรวมที่ผนัง (N) , <b>L</b> = ความกว้าง/ยาวเขื่อน (m) , <b>H</b> = ระดับน้ำ (m)</li>
+        </ul>
+        <div class="example-box">
+          <b>ตัวอย่าง 1 :</b> เขื่อนยาว 100 m รับแรงได้ 6.0×10⁵ N ⇒ 6×10⁵ = ½(10³)(10)(100)H² ⇒ H = √1.2 ≈ <b>1.095 m</b><br>
+          <b>ตัวอย่าง 2 :</b> ระดับน้ำเพิ่มเป็น 2 เท่า ⇒ F₂/F₁ = (H₂/H₁)² = <b>4 เท่า</b><br>
+          <b>ตัวอย่าง 3 :</b> ประตูน้ำ น้ำเค็มสูง 4 m (ρ=1.4×10³) ดันฝั่งหนึ่ง น้ำจืดสูง 6 m ดันอีกฝั่ง (L=100 m) ⇒ F₁ = 1.12×10⁷ N , F₂ = 1.8×10⁷ N ⇒ ΣF = <b>6.8×10⁶ N</b>
+        </div>
+      </article>
+
+      <!-- การ์ดที่ 7 : กฎพาสคัล + ไฮดรอลิก (หน้า 12-18) -->
+      <article class="lesson-card card">
+        <h2>7) กฎของพาสคัลและเครื่องอัดไฮดรอลิก</h2>
+        <p><b>กฎของพาสคัล :</b> "ถ้าเพิ่มความดันให้ของไหลในภาชนะปิด ณ จุดใด ๆ ความดันจะส่งกระจายไปให้ทุกส่วนของของไหลเท่ากันหมด"</p>
+        <div class="formula">F/a = W/A &nbsp;&nbsp;⇒&nbsp;&nbsp; M.A. = W/F = A/a = (R/r)²</div>
+        <ul>
+          <li><b>F, a</b> = แรงกดและพื้นที่ลูกสูบเล็ก , <b>W, A</b> = น้ำหนักและพื้นที่ลูกสูบใหญ่</li>
+          <li><b>M.A.</b> = การได้เปรียบเชิงกล — หน้าตัดวงกลมใช้ R²/r²</li>
+        </ul>
+        <div class="example-box">
+          <b>ตัวอย่าง 1 :</b> A = 10a กด F = 50 N ⇒ W = 500 N (M.A. = 10 เท่า)<br>
+          <b>ตัวอย่าง 2 :</b> เส้นผ่านศูนย์กลาง 5 : 1 ⇒ W/F = (5)² = <b>25 เท่า</b><br>
+          <b>ตัวอย่าง 3 :</b> M.A. = 4, r = 10 cm ⇒ R = √4 × 10 = <b>20 cm</b><br>
+          <b>ตัวอย่าง 4 :</b> ลูกสูบยก D=14 cm ยกรถมวล 1 ตัน ⇒ P = mg/πR² = 10⁴ ÷ (22/7 × 0.07²) ≈ <b>6.49×10⁵ Pa</b><br>
+          <b>ตัวอย่าง 5 :</b> แม่แรง+คานโยก A=100a แรง 100 N ที่ปลายคาน (50 cm จากลูกสูบ, 60 cm จากจุดหมุน) ⇒ F ลูกสูบ = 100×60/10 = 600 N ⇒ W = <b>6×10⁴ N</b>
+        </div>
+      </article>
+
+      <!-- การ์ดที่ 8 : อาร์คิมีดีส (หน้า 19-21) -->
+      <article class="lesson-card card">
+        <h2>8) หลักอาร์คิมีดีส (แรงพยุง)</h2>
+        <p>"วัตถุที่จมในของเหลวทั้งก้อนหรือบางส่วน จะถูกแรงพยุงเท่ากับน้ำหนักของของเหลวที่ถูกแทนที่"</p>
+        <div class="formula">F<sub>B</sub> = ρ<sub>f</sub> V<sub>จม</sub> g</div>
+        <ul>
+          <li><b>V<sub>จม</sub></b> = ปริมาตรส่วนที่จมอยู่ในของเหลว (m³)</li>
+          <li><b>วัตถุลอย</b> : F<sub>B</sub> = W ⇒ ρ<sub>ของเหลว</sub>V<sub>จม</sub> = ρ<sub>วัตถุ</sub>V<sub>ทั้งหมด</sub></li>
+          <li><b>วัตถุถูกเชือกศัก</b> : T = mg − F<sub>B</sub></li>
+        </ul>
+        <div class="example-box">
+          <b>ตัวอย่าง 1 :</b> ลูกกลม V=0.2 m³ ρ=4.5×10³ ผูกเชือกจมในของเหลว ρ=1.2×10³ ⇒ T = 9000 − 2400 = <b>6.6×10³ N</b><br>
+          <b>ตัวอย่าง 2 :</b> ลูกบาศก์ 0.1 m ρ=800 ลอยน้ำ ⇒ h<sub>จม</sub> = 8 cm ⇒ พ้นน้ำ <b>2 cm</b><br>
+          <b>ตัวอย่าง 3 :</b> วัตถุ V=100 cm³ ลอยในน้ำโผล่ 30 cm³ ⇒ ρ<sub>วัตถุ</sub> = 1000×70/100 = <b>700 kg/m³</b>
+        </div>
+      </article>
+
+      <!-- การ์ดที่ 9 : ของไหลอุดมคติ + สมการต่อเนื่อง (หน้า 22-25) -->
+      <article class="lesson-card card">
+        <h2>9) ของไหลอุดมคติและสมการความต่อเนื่อง</h2>
+        <p><b>ของไหลอุดมคติ</b> มี 4 สมบัติ : ① ไหลสม่ำเสมอ ② ไหลโดยไม่หมุนรอบตัวเอง ③ ไม่มีความหนืด ④ ไม่ถูกอัด (ความหนาแน่นคงที่)</p>
+        <p><b>สมการความต่อเนื่อง :</b> ผลคูณพื้นที่หน้าตัดกับอัตราเร็ว ณ ตำแหน่งใดในหลอดการไหล มีค่าคงตัวเสมอ</p>
+        <div class="formula">A₁v₁ = A₂v₂ &nbsp;&nbsp;และ&nbsp;&nbsp; Q = Av = V/t</div>
+        <ul>
+          <li><b>Q</b> = อัตราการไหล (m³/s) , <b>A</b> = พื้นที่หน้าตัด (m²) ท่อกลมใช้ πr²</li>
+        </ul>
+        <div class="example-box">
+          <b>ตัวอย่าง 1 :</b> ท่อดับเพลิง d<sub>A</sub>=8 cm v<sub>A</sub>=5 m/s ปลาย d<sub>B</sub>=4 cm ⇒ (4×10⁻²)²×5 = (2×10⁻²)²×v<sub>B</sub> ⇒ v<sub>B</sub> = <b>20 m/s</b><br>
+          <b>ตัวอย่าง 2 :</b> ท่อประปา d₁=7 cm v₁=0.6 ขึ้นตึก d₂=2.4 cm ⇒ v₂ = (12.25×0.6)/1.44 ≈ <b>5.1 m/s</b><br>
+          <b>ตัวอย่าง 3 :</b> น้ำไหลแนวดิ่งจากก๊อก d=2 cm v=0.4 จน d เหลือ 1 cm ⇒ v₂ = 1.6 m/s แล้วใช้ v₂²=v₁²+2gh ⇒ h = <b>12 cm</b>
+        </div>
+      </article>
+
+      <!-- การ์ดที่ 10 : สมการเบอร์นูลลี (หน้า 26-27) -->
+      <article class="lesson-card card">
+        <h2>10) สมการแบร์นูลลี</h2>
+        <p><b>หลักเบอร์นูลลี :</b> "ที่ระดับคงตัว ของไหลเร็วขึ้น ความดันลดลง — ของไหลช้าลง ความดันเพิ่มขึ้น" (มาจากกฎการอนุรักษ์พลังงาน)</p>
+        <div class="formula">P + ½ρv² + ρgh = คงตัว</div>
+        <ul>
+          <li>พลังงานความดัน + พลังงานจลน์ต่อปริมาตร + พลังงานศักย์ต่อปริมาตร = คงที่</li>
+          <li>เทียบ 2 จุด : P₁ + ½ρv₁² + ρgh₁ = P₂ + ½ρv₂² + ρgh₂</li>
+        </ul>
+        <div class="example-box">
+          <b>ตัวอย่าง 1 :</b> ปีกเครื่องบินต้องการ ΔP = 1000 N/m² ρ<sub>อากาศ</sub>=1.2 v<sub>ล่าง</sub>=100 m/s ⇒ 1000 = ½×1.2×(v₁²−10000) ⇒ v₁ ≈ <b>108 m/s</b><br>
+          <b>ตัวอย่าง 2 :</b> สายยาง A₁=3.5 cm² v₁=0.5 m/s หัวฉีด A₂=0.25 cm² สูง 1.5 m ⇒ v₂=7 m/s ⇒ P₁ = 10⁵+24500+15000−125 = 139375 Pa ≈ <b>1.39 atm</b>
+        </div>
+      </article>
+
+      <!-- การ์ดที่ 11 : สรุปสูตร -->
+      <article class="lesson-card card">
+        <h2>11) สรุปสูตรเร็ว</h2>
+        <table class="summary-table">
+          <tr><th>สูตร</th><th>ใช้เมื่อ</th></tr>
+          <tr><td>ρ = m/V</td><td>หาความหนาแน่น</td></tr>
+          <tr><td>S.G. = ρสาร/ρน้ำ</td><td>ความหนาแน่นสัมพัทธ์</td></tr>
+          <tr><td>P = F/A</td><td>ความดันทั่วไป</td></tr>
+          <tr><td>P<sub>g</sub> = ρgh , ΣP = P<sub>atm</sub>+P<sub>g</sub></td><td>ความดันใต้ของเหลวลึก h</td></tr>
+          <tr><td>ρ₁h₁ = ρ₂h₂</td><td>หลอดยู / แมนอมิเตอร์</td></tr>
+          <tr><td>F = ½ρgLH²</td><td>แรงดันน้ำบนเขื่อน/กำแพง</td></tr>
+          <tr><td>F/a = W/A , M.A. = A/a</td><td>เครื่องอัดไฮดรอลิก</td></tr>
+          <tr><td>F<sub>B</sub> = ρ<sub>f</sub>V<sub>จม</sub>g</td><td>แรงพยุงอาร์คิมีดีส</td></tr>
+          <tr><td>A₁v₁ = A₂v₂</td><td>ท่อหน้าตัดเปลี่ยน</td></tr>
+          <tr><td>P₁ + ½ρv₁² + ρgh₁ = P₂ + ½ρv₂² + ρgh₂</td><td>เบอร์นูลลี เทียบสองจุด</td></tr>
+        </table>
+        <p class="cta-hint">พร้อมแล้ว ? กดแท็บ "แบบฝึกหัด" ด้านบนได้เลย</p>
+      </article>
+
+    </section>
+
+    <!-- ====================================================
+         SECTION 2 : แบบฝึกหัด
+         - #quiz-box   : script.js จะสร้างคำถามทีละข้อใส่ไว้ข้างใน
+         - #result-box : หน้าสรุปคะแนน (ซ่อนไว้ก่อนด้วย attribute hidden)
+         (พื้นที่คิดเลข/วาดรูปย้ายไปเป็นแผงขวาท้ายไฟล์แล้ว)
+         ==================================================== -->
+    <section id="quiz-section" class="page">
+
+      <!-- กล่องคำถาม เนื้อหาถูกสร้างโดย script.js -->
+      <div id="quiz-box" class="card"></div>
+
+      <!-- กล่องสรุปคะแนน แสดงเมื่อทำครบทุกข้อ -->
+      <div id="result-box" class="card result-card" hidden>
+        <h2>สรุปผลคะแนน</h2>
+        <!-- วงกลมแสดงเปอร์เซ็นต์ (ตัวเลขถูกเติมโดย script.js) -->
+        <div id="score-ring" class="score-ring">
+          <div class="score-inner">
+            <span id="score-percent">0%</span>
+            <small id="score-text">0/0 คะแนน</small>
+          </div>
+        </div>
+        <p id="result-message" class="result-message"></p>
+        <button id="retry-btn" class="btn-primary">ทำแบบฝึกหัดอีกครั้ง</button>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ============================================================
+       พื้นที่คิดเลขและวาดรูป : แผงด้านขวา (เปิด/ปิดได้)
+       - กดปุ่มลอยมุมขวาล่าง (#pad-toggle) เพื่อเปิด
+       - ปิดด้วยปุ่ม x บนแผง หรือกด Esc
+       - ใช้งานได้ทั้งหน้าเนื้อหาและหน้าแบบฝึกหัด
+       ============================================================ -->
+
+  <!-- ปุ่มลอยสำหรับเปิดแผง -->
+  <button id="pad-toggle" class="pad-toggle">พื้นที่คิดเลข</button>
+
+  <!-- แผงกระดาษทด (ซ่อนอยู่นอกจอ เลื่อนเข้ามาจากด้านขวา) -->
+  <aside id="scratchpad" aria-hidden="true">
+    <div class="pad-head">
+      <h3>พื้นที่คิดเลขและวาดรูป</h3>
+      <button id="pad-close" class="pad-close" aria-label="ปิด">×</button>
+    </div>
+
+    <!-- แถบเครื่องมือ : ปากกา / ยางลบ / ปรับขนาด / สี / ย้อนกลับ / ล้าง -->
+    <div class="toolbar">
+      <button id="pen-btn" class="tool-btn active">ปากกา</button>
+      <button id="eraser-btn" class="tool-btn">ยางลบ</button>
+      <!-- แถบเลื่อนปรับขนาดหัวปากกา/ยางลบ -->
+      <label class="size-control">ขนาด
+        <input type="range" id="brush-size" min="1" max="30" value="3" />
+        <span id="size-value">3</span>
+      </label>
+      <!-- ปุ่มวงกลมเลือกสีปากกา (data-color คือรหัสสี) -->
+      <span class="swatches">
+        <button class="swatch active" data-color="#1e293b" style="background:#1e293b" aria-label="สีดำ"></button>
+        <button class="swatch" data-color="#dc2626" style="background:#dc2626" aria-label="สีแดง"></button>
+        <button class="swatch" data-color="#2563eb" style="background:#2563eb" aria-label="สีน้ำเงิน"></button>
+        <button class="swatch" data-color="#16a34a" style="background:#16a34a" aria-label="สีเขียว"></button>
+      </span>
+      <button id="undo-btn" class="tool-btn">ย้อนกลับ</button>
+      <button id="clear-btn" class="tool-btn danger">ล้าง</button>
+    </div>
+
+    <!-- ผืนผ้าใบสำหรับเขียน/วาด รองรับทั้งเมาส์และนิ้วบนมือถือ
+         (cursor:none = ให้วงกลมพรีวิวขนาดแทนเคอร์เซอร์เดิม) -->
+    <canvas id="sketch-canvas"></canvas>
+
+    <!-- พื้นที่คำนวณแบบรวม : แก้ไขได้โดยตรง + แสดงผลจัดรูปแบบพร้อมกัน
+         ใช้ contenteditable div เดียว แทน textarea + preview แยก -->
+    <label class="type-label" for="calc-editor">พิมพ์คำนวณได้เลย (^ ยกกำลัง  _ ตัวห้อย  a/b เศษส่วน)</label>
+    <div id="calc-editor" class="calc-editor" contenteditable="true" spellcheck="false"
+      data-placeholder="พิมพ์วิธีคิด เช่น v_2 = A_1 v_1/A_2 = 20*4/8 = 10 m/s"></div>
+
+    <!-- คู่มือสัญลักษณ์สำหรับพิมพ์ -->
+    <small class="type-label">เคล็ดลับ : <b>^</b> ยกกำลัง • <b>_</b> ตัวห้อย • <b>a/b</b> หรือ <b>(a)/(b)</b> เศษส่วน</small>
+  </aside>
+
+  <!-- วงกลมโปร่งใสลอยตามเมาส์ แสดงขนาดจริงของปากกา/ยางลบ -->
+  <div id="brush-cursor" hidden></div>
+
+  <!-- ==================== ส่วนท้ายเว็บ ==================== -->
+  <footer class="site-footer">
+    เว็บทบทวนฟิสิกส์ พลศาสตร์ของไหล • สร้างด้วย HTML + CSS + JavaScript
+  </footer>
+
+  <!-- โหลด script.js ไว้ท้ายสุด เพื่อให้องค์ประกอบทั้งหมดถูกสร้างเสร็จก่อน -->
+  <script src="script.js"></script>
+</body>
+</html>
