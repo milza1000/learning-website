@@ -223,6 +223,7 @@ const homeSection = document.getElementById("home-section");
 
 /* สร้างการ์ดวิชาทั้งหมดลง grid */
 function renderSubjectGrid() {
+  if (!subjectGrid) return;
   subjectGrid.innerHTML = subjects.map((s) => `
     <article class="subject-card ${s.available ? "" : "locked"}" data-id="${s.id}"
              role="${s.available ? "button" : "listitem"}"
@@ -241,11 +242,13 @@ function renderSubjectGrid() {
 renderSubjectGrid();
 
 /* กดการ์ด = เข้าวิชา (delegate ที่ grid เพราะการ์ดสร้างจาก JS) */
-subjectGrid.addEventListener("click", (e) => {
-  const card = e.target.closest(".subject-card");
-  if (!card || card.classList.contains("locked")) return;
-  openSubject(card.dataset.id);
-});
+if (subjectGrid) {
+  subjectGrid.addEventListener("click", (e) => {
+    const card = e.target.closest(".subject-card");
+    if (!card || card.classList.contains("locked")) return;
+    openSubject(card.dataset.id);
+  });
+}
 
 /* ============================================================
    1) ระบบสลับหน้า (หน้าแรก <-> เนื้อหาบทเรียน <-> แบบฝึกหัด)
@@ -263,18 +266,24 @@ const quizSection = document.getElementById("quiz-section");
 
 /* กลับหน้าแรก : ซ่อนโลโก้ + แท็บ แล้วโชว์ grid วิชา */
 function showHomePage() {
-  homeLogo.hidden = true;
-  navTabs.hidden = true;
-  homeSection.classList.add("active");
-  lessonSection.classList.remove("active");
-  quizSection.classList.remove("active");
-  window.scrollTo({ top: 0 });
+  if (homeLogo && homeLogo.tagName === "BUTTON") {
+    homeLogo.hidden = true;
+    navTabs.hidden = true;
+    homeSection.classList.add("active");
+    lessonSection.classList.remove("active");
+    quizSection.classList.remove("active");
+    window.scrollTo({ top: 0 });
+  }
 }
 
 /* เข้าวิชา : โชว์โลโก้ + แท็บ แล้วเปิดหน้าเนื้อหาเป็นหน้าแรกของวิชา */
 function openSubject(id) {
   const s = subjects.find((x) => x.id === id);
   if (!s || !s.available) return;
+  if (id === "fluid") {
+    window.location.href = "physics.html";
+    return;
+  }
   homeLogo.hidden = false;
   navTabs.hidden = false;
   showLessonPage();
@@ -299,9 +308,11 @@ function showQuizPage() {
   if (typeof annoPendingSetup !== "undefined" && annoPendingSetup) setupAnnotateLayer();
 }
 
-homeLogo.addEventListener("click", showHomePage);
-tabLesson.addEventListener("click", showLessonPage);
-tabQuiz.addEventListener("click", showQuizPage);
+if (homeLogo && homeLogo.tagName === "BUTTON") {
+  homeLogo.addEventListener("click", showHomePage);
+}
+if (tabLesson) tabLesson.addEventListener("click", showLessonPage);
+if (tabQuiz) tabQuiz.addEventListener("click", showQuizPage);
 
 /* ============================================================
    2.1) Dark Mode : สวิตช์ลอยมุมขวาบน (จำค่าไว้ใน localStorage)
@@ -1274,6 +1285,8 @@ calcEditor.addEventListener("paste", (e) => {
 });
 
 /* ============================================================
-   เริ่มระบบครั้งแรก : สร้างข้อสอบข้อที่ 1 รอไว้เลย
-   ============================================================ */
-renderQuestion();
+    เริ่มต้นระบบครั้งแรก : สร้างข้อสอบข้อที่ 1 รอไว้เลย (เฉพาะเมื่อมี quizBox)
+    ============================================================ */
+if (quizBox) {
+  renderQuestion();
+}
