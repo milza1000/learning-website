@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ============================================================
-     english.html : สรุปเนื้อหาไวยากรณ์ภาษาอังกฤษระดับสูง + แบบฝึกหัด
+     english.html : สรุปเนื้อหาและแบบฝึกหัดไวยากรณ์ภาษาอังกฤษระดับสูง
      ============================================================ -->
 <html lang="th">
 <head>
@@ -15,9 +15,9 @@
 
   <link rel="stylesheet" href="style.css" />
   <style>
-    /* สไตล์เพิ่มเติมสำหรับส่วนแบบฝึกหัดและการเฉลยแบบพับได้ */
+    /* สไตล์เพิ่มเติมสำหรับแบบฝึกหัดและการเฉลย */
     .quiz-container {
-      margin-top: 40px;
+      margin-top: 20px;
     }
     .quiz-section-title {
       font-size: 1.5rem;
@@ -107,6 +107,12 @@
     </svg>
   </a>
 
+  <!-- เมนูแท็บสลับหน้า -->
+  <nav class="tabs" id="main-tabs">
+    <button id="tab-lesson" class="tab active">เนื้อหาบทเรียน</button>
+    <button id="tab-quiz" class="tab">แบบฝึกหัด</button>
+  </nav>
+
   <!-- สวิตช์โหมดมืด/สว่าง -->
   <label class="theme-switch" title="สลับโหมดมืด/สว่าง">
     <input type="checkbox" id="theme-toggle" aria-label="สลับโหมดมืด/สว่าง" />
@@ -123,6 +129,7 @@
   </label>
 
   <main>
+    <!-- SECTION 1 : เนื้อหาบทเรียน -->
     <section id="lesson-section" class="page active">
 
       <!-- หัวข้อที่ 1 -->
@@ -197,11 +204,14 @@
         </div>
       </article>
 
-      <!-- ==================== ส่วนแบบฝึกหัดทบทวนไวยากรณ์ ==================== -->
-      <div class="quiz-container">
-        <h2 class="quiz-section-title">แบบฝึกหัดทบทวนไวยากรณ์ (English Quiz)</h2>
+    </section>
 
-        <!-- ระดับพื้นฐาน (General Quiz) -->
+    <!-- SECTION 2 : แบบฝึกหัด (20 ข้อ) -->
+    <section id="quiz-section" class="page">
+      <div class="quiz-container">
+        <h2 class="quiz-section-title">แบบฝึกหัดทบทวนไวยากรณ์ (English Quiz - 20 ข้อ)</h2>
+
+        <!-- ==================== 1. ระดับพื้นฐาน (General Quiz) 10 ข้อ ==================== -->
         <h3 style="color: var(--text-main); margin: 24px 0 12px;">1. ระดับพื้นฐาน (General Quiz)</h3>
 
         <!-- ข้อ 1 -->
@@ -258,7 +268,7 @@
         <!-- ข้อ 4 -->
         <div class="question-card">
           <span class="tag-badge">หัวข้อที่ 3: Preparatory It (Subject)</span>
-          ### <h3>ข้อ 4: ______ is essential to submit your application before the deadline.</h3>
+          <h3>ข้อ 4: ______ is essential to submit your application before the deadline.</h3>
           <ul class="options-list">
             <li>A) There</li>
             <li>B) This</li>
@@ -289,14 +299,99 @@
           </div>
         </div>
 
-
-        <!-- ระดับสอบเข้าและเก็งข้อสอบสากล (Exam Prep) -->
-        <h3 style="color: var(--text-main); margin: 36px 0 12px;">2. ระดับสอบเข้าและเก็งข้อสอบสากล (Exam Prep)</h3>
-
         <!-- ข้อ 6 -->
         <div class="question-card">
+          <span class="tag-badge">หัวข้อที่ 1: Preparatory There</span>
+          <h3>ข้อ 6: ______ thought to be several reasons for the sudden climate change.</h3>
+          <ul class="options-list">
+            <li>A) It is</li>
+            <li>B) There is</li>
+            <li>C) There are</li>
+            <li>D) They are</li>
+          </ul>
+          <button class="explanation-toggle" onclick="toggleExp('exp-g6')">ดูเฉลยและคำอธิบาย</button>
+          <div id="exp-g6" class="explanation-box" style="display: none;">
+            <b>ตอบ: C) There are</b><br>
+            <b>คำอธิบาย:</b> Noun phrase คือ "several reasons" เป็นพหูพจน์ กริยาจึงต้องใช้ <i>are thought to be</i>
+          </div>
+        </div>
+
+        <!-- ข้อ 7 -->
+        <div class="question-card">
+          <span class="tag-badge">หัวข้อที่ 2: Passive Gerund</span>
+          <h3>ข้อ 7: He really dislikes ______ without being given a proper chance to explain.</h3>
+          <ul class="options-list">
+            <li>A) to judge</li>
+            <li>B) judging</li>
+            <li>C) being judged</li>
+            <li>D) having judged</li>
+          </ul>
+          <button class="explanation-toggle" onclick="toggleExp('exp-g7')">ดูเฉลยและคำอธิบาย</button>
+          <div id="exp-g7" class="explanation-box" style="display: none;">
+            <b>ตอบ: C) being judged</b><br>
+            <b>คำอธิบาย:</b> หลัง dislike ต้องตามด้วย Gerund และในบริบทนี้ประธานเป็นผู้ถูกตัดสิน จึงต้องใช้ Passive Gerund (<i>being + V.3</i>)
+          </div>
+        </div>
+
+        <!-- ข้อ 8 -->
+        <div class="question-card">
+          <span class="tag-badge">หัวข้อที่ 3: Preparatory It (Subject)</span>
+          <h3>ข้อ 8: ______ seemed that nobody understood the complicated instructions.</h3>
+          <ul class="options-list">
+            <li>A) There</li>
+            <li>B) It</li>
+            <li>C) This</li>
+            <li>D) What</li>
+          </ul>
+          <button class="explanation-toggle" onclick="toggleExp('exp-g8')">ดูเฉลยและคำอธิบาย</button>
+          <div id="exp-g8" class="explanation-box" style="display: none;">
+            <b>ตอบ: B) It</b><br>
+            <b>คำอธิบาย:</b> โครงสร้าง <i>It + seemed + that-clause</i> ใช้เกริ่นนำประโยคย่อยที่เป็นประธานแท้จริง
+          </div>
+        </div>
+
+        <!-- ข้อ 9 -->
+        <div class="question-card">
+          <span class="tag-badge">หัวข้อที่ 4: Preparatory It (Object)</span>
+          <h3>ข้อ 9: We consider ______ important to protect our personal data online.</h3>
+          <ul class="options-list">
+            <li>A) this</li>
+            <li>B) that</li>
+            <li>C) it</li>
+            <li>D) them</li>
+          </ul>
+          <button class="explanation-toggle" onclick="toggleExp('exp-g9')">ดูเฉลยและคำอธิบาย</button>
+          <div id="exp-g9" class="explanation-box" style="display: none;">
+            <b>ตอบ: C) it</b><br>
+            <b>คำอธิบาย:</b> ใช้ <i>it</i> เป็นกรรมเกริ่นนำก่อน Adjective (important) และ to-infinitive phrase
+          </div>
+        </div>
+
+        <!-- ข้อ 10 -->
+        <div class="question-card">
+          <span class="tag-badge">หัวข้อที่ 2: Gerund after Prepositions</span>
+          <h3>ข้อ 10: Instead of ______, she decided to talk directly to the manager.</h3>
+          <ul class="options-list">
+            <li>A) complain</li>
+            <li>B) complaining</li>
+            <li>C) complained</li>
+            <li>D) having complain</li>
+          </ul>
+          <button class="explanation-toggle" onclick="toggleExp('exp-g10')">ดูเฉลยและคำอธิบาย</button>
+          <div id="exp-g10" class="explanation-box" style="display: none;">
+            <b>ตอบ: B) complaining</b><br>
+            <b>คำอธิบาย:</b> หลังบุพบท (instead of) ต้องตามด้วยกริยาเติม <i>-ing</i> (Gerund) เสมอ
+          </div>
+        </div>
+
+
+        <!-- ==================== 2. ระดับสอบเข้าและเก็งข้อสอบสากล (Exam Prep) 10 ข้อ ==================== -->
+        <h3 style="color: var(--text-main); margin: 36px 0 12px;">2. ระดับสอบเข้าและเก็งข้อสอบสากล (Exam Prep)</h3>
+
+        <!-- ข้อ 11 -->
+        <div class="question-card">
           <span class="tag-badge">แนวข้อสอบ: A-Level English</span>
-          <h3>ข้อ 6: Which of the following sentences is grammatically INCORRECT?</h3>
+          <h3>ข้อ 11: Which of the following sentences is grammatically INCORRECT?</h3>
           <ul class="options-list">
             <li>A) There are reported to be several new planets discovered recently.</li>
             <li>B) It is thought that there are thousands of stars in the galaxy.</li>
@@ -310,10 +405,10 @@
           </div>
         </div>
 
-        <!-- ข้อ 7 -->
+        <!-- ข้อ 12 -->
         <div class="question-card">
           <span class="tag-badge">แนวข้อสอบ: TGAT English</span>
-          <h3>ข้อ 7: Due to her exceptional performance, she couldn't help ______ when the director offered her the leading role.</h3>
+          <h3>ข้อ 12: Due to her exceptional performance, she couldn't help ______ when the director offered her the leading role.</h3>
           <ul class="options-list">
             <li>A) cry</li>
             <li>B) crying</li>
@@ -327,10 +422,10 @@
           </div>
         </div>
 
-        <!-- ข้อ 8 -->
+        <!-- ข้อ 13 -->
         <div class="question-card">
           <span class="tag-badge">แนวข้อสอบ: IELTS Reading & Grammar</span>
-          <h3>ข้อ 8: Many scientists consider ______ vital to preserve endangered ecosystems before it is too late.</h3>
+          <h3>ข้อ 13: Many scientists consider ______ vital to preserve endangered ecosystems before it is too late.</h3>
           <ul class="options-list">
             <li>A) this</li>
             <li>B) it</li>
@@ -344,10 +439,10 @@
           </div>
         </div>
 
-        <!-- ข้อ 9 -->
+        <!-- ข้อ 14 -->
         <div class="question-card">
           <span class="tag-badge">แนวข้อสอบ: Advanced University Entrance</span>
-          <h3>ข้อ 9: ______ denied that economic inflation has severely impacted small businesses nationwide.</h3>
+          <h3>ข้อ 14: ______ denied that economic inflation has severely impacted small businesses nationwide.</h3>
           <ul class="options-list">
             <li>A) There is</li>
             <li>B) It is</li>
@@ -357,14 +452,14 @@
           <button class="explanation-toggle" onclick="toggleExp('exp-e4')">ดูเฉลยและคำอธิบาย</button>
           <div id="exp-e4" class="explanation-box" style="display: none;">
             <b>ตอบ: B) It is</b><br>
-            <b>คำอธิบาย:</b> เมื่อตามด้วย <i>that-clause</i> (หรือละ <i>that</i>) ในรูปแบบ Passive ของกริยารายงาน จะต้องใช้ <i>It is denied that...</i> (ห้ามใช้ There is denied)
+            <b>คำอธิบาย:</b> เมื่อตามด้วย <i>that-clause</i> ในรูปแบบ Passive ของกริยารายงาน จะต้องใช้ <i>It is denied that...</i> (ห้ามใช้ There is denied)
           </div>
         </div>
 
-        <!-- ข้อ 10 -->
+        <!-- ข้อ 15 -->
         <div class="question-card">
           <span class="tag-badge">แนวข้อสอบ: IELTS Writing Structure</span>
-          <h3>ข้อ 10: Rather than blaming others, she took full responsibility for ______ the confidential report incorrectly.</h3>
+          <h3>ข้อ 15: Rather than blaming others, she took full responsibility for ______ the confidential report incorrectly.</h3>
           <ul class="options-list">
             <li>A) file</li>
             <li>B) having filed</li>
@@ -374,13 +469,98 @@
           <button class="explanation-toggle" onclick="toggleExp('exp-e5')">ดูเฉลยและคำอธิบาย</button>
           <div id="exp-e5" class="explanation-box" style="display: none;">
             <b>ตอบ: B) having filed</b><br>
-            <b>คำอธิบาย:</b> หลังบุพบท (for) ต้องใช้ Gerund และการกระทำยื่นรายงานผิดเกิดขึ้นก่อนในอดีต จึงใช้ Perfect Gerund (<i>having + V.3</i>) เน้นย้ำความสมบูรณ์ของเหตุการณ์
+            <b>คำอธิบาย:</b> หลังบุพบท (for) ต้องใช้ Gerund และการกระทำยื่นรายงานผิดเกิดขึ้นก่อนในอดีต จึงใช้ Perfect Gerund (<i>having + V.3</i>)
+          </div>
+        </div>
+
+        <!-- ข้อ 16 -->
+        <div class="question-card">
+          <span class="tag-badge">แนวข้อสอบ: CU-TEP / TU-GET (Advanced)</span>
+          <h3>ข้อ 16: The board made ______ clear that no exceptions would be made for late submissions.</h3>
+          <ul class="options-list">
+            <li>A) this</li>
+            <li>B) that</li>
+            <li>C) it</li>
+            <li>D) what</li>
+          </ul>
+          <button class="explanation-toggle" onclick="toggleExp('exp-e6')">ดูเฉลยและคำอธิบาย</button>
+          <div id="exp-e6" class="explanation-box" style="display: none;">
+            <b>ตอบ: C) it</b><br>
+            <b>คำอธิบาย:</b> โครงสร้าง <i>Subject + made + it + Adj (clear) + that-clause</i> ใช้ Preparatory <i>it</i> เป็นกรรมเกริ่นนำก่อน that-clause
+          </div>
+        </div>
+
+        <!-- ข้อ 17 -->
+        <div class="question-card">
+          <span class="tag-badge">แนวข้อสอบ: A-Level English Grammar</span>
+          <h3>ข้อ 17: ______ estimated that over one million tourists visit this historical landmark every year.</h3>
+          <ul class="options-list">
+            <li>A) There is</li>
+            <li>B) It is</li>
+            <li>C) They are</li>
+            <li>D) There are</li>
+          </ul>
+          <button class="explanation-toggle" onclick="toggleExp('exp-e7')">ดูเฉลยและคำอธิบาย</button>
+          <div id="exp-e7" class="explanation-box" style="display: none;">
+            <b>ตอบ: B) It is</b><br>
+            <b>คำอธิบาย:</b> เมื่อตามด้วย <i>that-clause</i> (over one million tourists visit...) ต้องใช้โครงสร้าง <i>It is estimated that...</i>
+          </div>
+        </div>
+
+        <!-- ข้อ 18 -->
+        <div class="question-card">
+          <span class="tag-badge">แนวข้อสอบ: IELTS Advanced Grammar</span>
+          <h3>ข้อ 18: ______ known to be several underground water reservoirs beneath the desert surface.</h3>
+          <ul class="options-list">
+            <li>A) It is</li>
+            <li>B) There is</li>
+            <li>C) There are</li>
+            <li>D) They are</li>
+          </ul>
+          <button class="explanation-toggle" onclick="toggleExp('exp-e8')">ดูเฉลยและคำอธิบาย</button>
+          <div id="exp-e8" class="explanation-box" style="display: none;">
+            <b>ตอบ: C) There are</b><br>
+            <b>คำอธิบาย:</b> ใช้โครงสร้าง <i>There + are + known to be + noun phrase</i> โดยสอดคล้องกับพจน์ของ "several underground water reservoirs" (พหูพจน์)
+          </div>
+        </div>
+
+        <!-- ข้อ 19 -->
+        <div class="question-card">
+          <span class="tag-badge">แนวข้อสอบ: TGAT / Senior High School</span>
+          <h3>ข้อ 19: She was worried about ______ about her mistake in front of the entire department.</h3>
+          <ul class="options-list">
+            <li>A) laughing</li>
+            <li>B) being laughed</li>
+            <li>C) having laughed</li>
+            <li>D) laugh</li>
+          </ul>
+          <button class="explanation-toggle" onclick="toggleExp('exp-e9')">ดูเฉลยและคำอธิบาย</button>
+          <div id="exp-e9" class="explanation-box" style="display: none;">
+            <b>ตอบ: B) being laughed</b><br>
+            <b>คำอธิบาย:</b> หลังบุพบท about ใช้ Gerund และประธานเป็นผู้ถูกหัวเราะเยาะ จึงใช้ Passive Gerund (<i>being + V.3</i>)
+          </div>
+        </div>
+
+        <!-- ข้อ 20 -->
+        <div class="question-card">
+          <span class="tag-badge">แนวข้อสอบ: A-Level / University Entrance</span>
+          <h3>ข้อ 20: Residents found ______ surprising that the local government approved the construction project so quickly.</h3>
+          <ul class="options-list">
+            <li>A) this</li>
+            <li>B) that</li>
+            <li>C) it</li>
+            <li>D) what</li>
+          </ul>
+          <button class="explanation-toggle" onclick="toggleExp('exp-e10')">ดูเฉลยและคำอธิบาย</button>
+          <div id="exp-e10" class="explanation-box" style="display: none;">
+            <b>ตอบ: C) it</b><br>
+            <b>คำอธิบาย:</b> โครงสร้าง <i>Subject + found + it + Adj (surprising) + that-clause</i> ใช้ Preparatory <i>it</i> เป็นกรรมเกริ่นนำ
           </div>
         </div>
 
       </div>
-
     </section>
+
   </main>
 
   <!-- ส่วนท้ายเว็บ -->
@@ -390,6 +570,30 @@
 
   <script src="script.js"></script>
   <script>
+    /* ระบบสลับแท็บ (Tabs Navigation) */
+    const tabLesson = document.getElementById("tab-lesson");
+    const tabQuiz = document.getElementById("tab-quiz");
+    const lessonSection = document.getElementById("lesson-section");
+    const quizSection = document.getElementById("quiz-section");
+
+    if (tabLesson && tabQuiz) {
+      tabLesson.addEventListener("click", () => {
+        tabLesson.classList.add("active");
+        tabQuiz.classList.remove("active");
+        lessonSection.classList.add("active");
+        quizSection.classList.remove("active");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+
+      tabQuiz.addEventListener("click", () => {
+        tabQuiz.classList.add("active");
+        tabLesson.classList.remove("active");
+        quizSection.classList.add("active");
+        lessonSection.classList.remove("active");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    }
+
     /* ฟังก์ชันเปิด-ปิดกล่องเฉลยแบบ Interactive Toggle */
     function toggleExp(id) {
       const box = document.getElementById(id);
