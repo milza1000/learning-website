@@ -330,8 +330,16 @@ function showQuizPage() {
 if (homeLogo && homeLogo.tagName === "BUTTON") {
   homeLogo.addEventListener("click", showHomePage);
 }
-if (tabLesson) tabLesson.addEventListener("click", showLessonPage);
-if (tabQuiz) tabQuiz.addEventListener("click", showQuizPage);
+if (tabLesson) {
+  tabLesson.addEventListener("click", () => {
+    showLessonPage();
+  });
+}
+if (tabQuiz) {
+  tabQuiz.addEventListener("click", () => {
+    showQuizPage();
+  });
+}
 
 /* ============================================================
    2.1) Dark Mode : สวิตช์ลอยมุมขวาบน (จำค่าไว้ใน localStorage)
