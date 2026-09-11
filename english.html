@@ -631,14 +631,16 @@
     const quizExamPanel = document.getElementById("quiz-exam-panel");
 
     if (subTabGeneral && subTabExam && quizGeneralPanel && quizExamPanel) {
-      subTabGeneral.addEventListener("click", () => {
+      subTabGeneral.addEventListener("click", (e) => {
+        e.preventDefault();
         subTabGeneral.classList.add("active");
         subTabExam.classList.remove("active");
         quizGeneralPanel.style.display = "block";
         quizExamPanel.style.display = "none";
       });
 
-      subTabExam.addEventListener("click", () => {
+      subTabExam.addEventListener("click", (e) => {
+        e.preventDefault();
         subTabExam.classList.add("active");
         subTabGeneral.classList.remove("active");
         quizExamPanel.style.display = "block";
