@@ -595,14 +595,16 @@
     }
 
     /* ฟังก์ชันเปิด-ปิดกล่องเฉลยแบบ Interactive Toggle */
-    function toggleExp(id) {
+    window.toggleExp = function(id) {
       const box = document.getElementById(id);
-      if (box.style.display === "none" || box.style.display === "") {
-        box.style.display = "block";
-      } else {
-        box.style.display = "none";
+      if (box) {
+        if (box.style.display === "none" || box.style.display === "") {
+          box.style.display = "block";
+        } else {
+          box.style.display = "none";
+        }
       }
-    }
+    };
   </script>
 </body>
 </html>
