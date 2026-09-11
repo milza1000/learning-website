@@ -18,7 +18,7 @@
      correct     : ลำดับคำตอบที่ถูกต้อง (0 = A, 1 = B, 2 = C, 3 = D)
      explanation : คำอธิบายวิธีคิด ที่จะแสดงหลังผู้เรียนตอบ
    ============================================================ */
-const quizData = [
+const quizDataFluid = [
 
   /* ---- ข้อ 1 : ความหนาแน่นสัมพัทธ์ของปรอท (หน้า 1) ---- */
   {
@@ -182,6 +182,202 @@ const quizData = [
     explanation: "ΔP = ½ρ(v₁² − v₂²) โดย v₁ เหนือปีก ⇒ 1000 = ½(1.2)(v₁²−10000) ⇒ v₁² ≈ 11667 ⇒ v₁ ≈ 108 m/s (เหนือปีกต้องเร็วกว่า ความดันจึงต่ำกว่า)",
   },
 ];
+
+const englishQuizData = {
+  general: [
+    {
+      tag: "หัวข้อที่ 1: Preparatory There",
+      question: "______ believed to be a rare species of bird living in this remote forest.",
+      image: null,
+      choices: ["It is", "There is", "There are", "They are"],
+      correct: 1,
+      explanation: "<b>ตอบ: B) There is</b><br><b>คำอธิบาย:</b> ใช้โครงสร้าง <i>There + is + believed to be + noun phrase</i> เนื่องจาก noun phrase (a rare species) เป็นเอกพจน์ จึงใช้ <i>is</i>",
+    },
+    {
+      tag: "หัวข้อที่ 2: Gerund Forms",
+      question: "She was proud of ______ the national competition last year.",
+      image: null,
+      choices: ["win", "winning", "having won", "being won"],
+      correct: 2,
+      explanation: "<b>ตอบ: C) having won</b><br><b>คำอธิบาย:</b> หลังบุพบท (of) ต้องใช้ Gerund และเหตุการณ์ชนะเกิดขึ้นเสร็จสิ้นก่อนความภูมิใจในปัจจุบัน จึงใช้ Perfect Gerund (<i>having + V.3</i>)",
+    },
+    {
+      tag: "หัวข้อที่ 2: Negative Gerund",
+      question: "______ the rules clearly caused a major misunderstanding among team members.",
+      image: null,
+      choices: ["Not explaining", "Explaining not", "Didn't explain", "No explaining"],
+      correct: 0,
+      explanation: "<b>ตอบ: A) Not explaining</b><br><b>คำอธิบาย:</b> รูปปฏิเสธของ Gerund ต้องวางคำว่า <i>not</i> ไว้หน้า Gerund เสมอ (ห้ามใช้รูปย่อและห้ามไว้หลัง)",
+    },
+    {
+      tag: "หัวข้อที่ 3: Preparatory It (Subject)",
+      question: "______ is essential to submit your application before the deadline.",
+      image: null,
+      choices: ["There", "This", "It", "That"],
+      correct: 2,
+      explanation: "<b>ตอบ: C) It</b><br><b>คำอธิบาย:</b> ใช้ Preparatory <i>it</i> เป็นประธานเกริ่นนำ เมื่อประธานแท้จริงอยู่ข้างหลังคือ Infinitive phrase (<i>to submit...</i>)",
+    },
+    {
+      tag: "หัวข้อที่ 4: Preparatory It (Object)",
+      question: "I find ______ difficult to concentrate when listening to loud music.",
+      image: null,
+      choices: ["this", "that", "it", "what"],
+      correct: 2,
+      explanation: "<b>ตอบ: C) it</b><br><b>คำอธิบาย:</b> ใช้ Preparatory <i>it</i> เป็นกรรมเกริ่นนำตามหลังกริยา (find) ก่อนตามด้วย Adjective (difficult) และ Infinitive phrase",
+    },
+    {
+      tag: "หัวข้อที่ 1: Preparatory There",
+      question: "______ thought to be several reasons for the sudden climate change.",
+      image: null,
+      choices: ["It is", "There is", "There are", "They are"],
+      correct: 2,
+      explanation: "<b>ตอบ: C) There are</b><br><b>คำอธิบาย:</b> Noun phrase คือ \"several reasons\" เป็นพหูพจน์ กริยาจึงต้องใช้ <i>are thought to be</i>",
+    },
+    {
+      tag: "หัวข้อที่ 2: Passive Gerund",
+      question: "He really dislikes ______ without being given a proper chance to explain.",
+      image: null,
+      choices: ["to judge", "judging", "being judged", "having judged"],
+      correct: 2,
+      explanation: "<b>ตอบ: C) being judged</b><br><b>คำอธิบาย:</b> หลัง dislike ต้องตามด้วย Gerund และในบริบทนี้ประธานเป็นผู้ถูกตัดสิน จึงต้องใช้ Passive Gerund (<i>being + V.3</i>)",
+    },
+    {
+      tag: "หัวข้อที่ 3: Preparatory It (Subject)",
+      question: "______ seemed that nobody understood the complicated instructions.",
+      image: null,
+      choices: ["There", "It", "This", "What"],
+      correct: 1,
+      explanation: "<b>ตอบ: B) It</b><br><b>คำอธิบาย:</b> โครงสร้าง <i>It + seemed + that-clause</i> ใช้เกริ่นนำประโยคย่อยที่เป็นประธานแท้จริง",
+    },
+    {
+      tag: "หัวข้อที่ 4: Preparatory It (Object)",
+      question: "We consider ______ important to protect our personal data online.",
+      image: null,
+      choices: ["this", "that", "it", "them"],
+      correct: 2,
+      explanation: "<b>ตอบ: C) it</b><br><b>คำอธิบาย:</b> ใช้ <i>it</i> เป็นกรรมเกริ่นนำก่อน Adjective (important) และ to-infinitive phrase",
+    },
+    {
+      tag: "หัวข้อที่ 2: Gerund after Prepositions",
+      question: "Instead of ______, she decided to talk directly to the manager.",
+      image: null,
+      choices: ["complain", "complaining", "complained", "having complain"],
+      correct: 1,
+      explanation: "<b>ตอบ: B) complaining</b><br><b>คำอธิบาย:</b> หลังบุพบท (instead of) ต้องตามด้วยกริยาเติม <i>-ing</i> (Gerund) เสมอ",
+    },
+  ],
+  exam: [
+    {
+      tag: "แนวข้อสอบ: A-Level English",
+      question: "Which of the following sentences is grammatically INCORRECT?",
+      image: null,
+      choices: [
+        "There are reported to be several new planets discovered recently.",
+        "It is thought that there are thousands of stars in the galaxy.",
+        "There is believed that the ancient artifact dates back to 500 BC.",
+        "Thousands of species are thought to exist in the Amazon rainforest."
+      ],
+      correct: 2,
+      explanation: "<b>ตอบ: C) There is believed that the ancient artifact dates back to 500 BC.</b><br><b>คำอธิบาย:</b> โครงสร้าง <i>Preparatory there</i> ห้ามตามด้วย <i>that-clause</i> เด็ดขาด (ต้องใช้ <i>It is believed that...</i> แทน) ข้อ C จึงผิดหลักไวยากรณ์",
+    },
+    {
+      tag: "แนวข้อสอบ: TGAT English",
+      question: "Due to her exceptional performance, she couldn't help ______ when the director offered her the leading role.",
+      image: null,
+      choices: ["cry", "crying", "being cried", "having cried"],
+      correct: 1,
+      explanation: "<b>ตอบ: B) crying</b><br><b>คำอธิบาย:</b> สำนวน <i>couldn't help</i> ต้องตามด้วยกริยาเติม <i>-ing</i> (Gerund) เสมอ หมายถึง \"อดไม่ได้ที่จะ...\"",
+    },
+    {
+      tag: "แนวข้อสอบ: IELTS Reading & Grammar",
+      question: "Many scientists consider ______ vital to preserve endangered ecosystems before it is too late.",
+      image: null,
+      choices: ["this", "it", "that", "what"],
+      correct: 1,
+      explanation: "<b>ตอบ: B) it</b><br><b>คำอธิบาย:</b> ใช้ Preparatory <i>it</i> เป็นกรรมรองรับโครงสร้าง <i>Subject + consider + it + Adj (vital) + to-infinitive (to preserve...)</i>",
+    },
+    {
+      tag: "แนวข้อสอบ: Advanced University Entrance",
+      question: "______ denied that economic inflation has severely impacted small businesses nationwide.",
+      image: null,
+      choices: ["There is", "It is", "There are", "It has"],
+      correct: 1,
+      explanation: "<b>ตอบ: B) It is</b><br><b>คำอธิบาย:</b> เมื่อตามด้วย <i>that-clause</i> ในรูปแบบ Passive ของกริยารายงาน จะต้องใช้ <i>It is denied that...</i> (ห้ามใช้ There is denied)",
+    },
+    {
+      tag: "แนวข้อสอบ: IELTS Writing Structure",
+      question: "Rather than blaming others, she took full responsibility for ______ the confidential report incorrectly.",
+      image: null,
+      choices: ["file", "having filed", "have filed", "being filed"],
+      correct: 1,
+      explanation: "<b>ตอบ: B) having filed</b><br><b>คำอธิบาย:</b> หลังบุพบท (for) ต้องใช้ Gerund และการกระทำยื่นรายงานผิดเกิดขึ้นก่อนในอดีต จึงใช้ Perfect Gerund (<i>having + V.3</i>)",
+    },
+    {
+      tag: "แนวข้อสอบ: CU-TEP / TU-GET (Advanced)",
+      question: "The board made ______ clear that no exceptions would be made for late submissions.",
+      image: null,
+      choices: ["this", "that", "it", "what"],
+      correct: 2,
+      explanation: "<b>ตอบ: C) it</b><br><b>คำอธิบาย:</b> โครงสร้าง <i>Subject + made + it + Adj (clear) + that-clause</i> ใช้ Preparatory <i>it</i> เป็นกรรมเกริ่นนำก่อน that-clause",
+    },
+    {
+      tag: "แนวข้อสอบ: A-Level English Grammar",
+      question: "______ estimated that over one million tourists visit this historical landmark every year.",
+      image: null,
+      choices: ["There is", "It is", "They are", "There are"],
+      correct: 1,
+      explanation: "<b>ตอบ: B) It is</b><br><b>คำอธิบาย:</b> เมื่อตามด้วย <i>that-clause</i> (over one million tourists visit...) ต้องใช้โครงสร้าง <i>It is estimated that...</i>",
+    },
+    {
+      tag: "แนวข้อสอบ: IELTS Advanced Grammar",
+      question: "______ known to be several underground water reservoirs beneath the desert surface.",
+      image: null,
+      choices: ["It is", "There is", "There are", "They are"],
+      correct: 2,
+      explanation: "<b>ตอบ: C) There are</b><br><b>คำอธิบาย:</b> ใช้โครงสร้าง <i>There + are + known to be + noun phrase</i> โดยสอดคล้องกับพจน์ของ \"several underground water reservoirs\" (พหูพจน์)",
+    },
+    {
+      tag: "แนวข้อสอบ: TGAT / Senior High School",
+      question: "She was worried about ______ about her mistake in front of the entire department.",
+      image: null,
+      choices: ["laughing", "being laughed", "having laughed", "laugh"],
+      correct: 1,
+      explanation: "<b>ตอบ: B) being laughed</b><br><b>คำอธิบาย:</b> หลังบุพบท about ใช้ Gerund และประธานเป็นผู้ถูกหัวเราะเยาะ จึงใช้ Passive Gerund (<i>being + V.3</i>)",
+    },
+    {
+      tag: "แนวข้อสอบ: A-Level / University Entrance",
+      question: "Residents found ______ surprising that the local government approved the construction project so quickly.",
+      image: null,
+      choices: ["this", "that", "it", "what"],
+      correct: 2,
+      explanation: "<b>ตอบ: C) it</b><br><b>คำอธิบาย:</b> โครงสร้าง <i>Subject + found + it + Adj (surprising) + that-clause</i> ใช้ Preparatory <i>it</i> เป็นกรรมเกริ่นนำ",
+    }
+  ]
+};
+
+const isEnglish = window.location.pathname.includes("english.html");
+let quizData = isEnglish ? englishQuizData.general : quizDataFluid;
+
+const subTabGeneral = document.getElementById("sub-tab-general");
+const subTabExam = document.getElementById("sub-tab-exam");
+
+if (subTabGeneral && subTabExam) {
+  subTabGeneral.addEventListener("click", (e) => {
+    e.preventDefault();
+    subTabGeneral.classList.add("active");
+    subTabExam.classList.remove("active");
+    quizData = englishQuizData.general;
+    resetQuiz();
+  });
+
+  subTabExam.addEventListener("click", (e) => {
+    e.preventDefault();
+    subTabExam.classList.add("active");
+    subTabGeneral.classList.remove("active");
+    quizData = englishQuizData.exam;
+    resetQuiz();
+  });
+}
 
 /* ============================================================
    0) หน้าแรก : เลือกวิชา
@@ -415,6 +611,7 @@ function renderQuestion() {
     </div>
     <!-- โซนที่วาด/ขีดเส้นได้ : ครอบคำถาม + ภาพประกอบ (มีทุกข้อ) -->
     <div class="annotate-zone">
+      ${q.tag ? `<span class="tag-badge">${q.tag}</span>` : ""}
       <h2 class="question-text">${q.question}</h2>
       ${q.image ? `<div class="question-image">${q.image}</div>` : ""}
       <!-- ชั้น canvas โปร่งใสวางทับโจทย์ (เปิดโหมดวาดก่อนจึงวาดได้) -->
@@ -504,10 +701,10 @@ function showResult() {
 
   /* เลือกข้อความให้กำลังใจตามระดับคะแนน */
   let msg;
-  if (pct === 100)     msg = "เยี่ยมมาก! เข้าใจพลศาสตร์ของไหลอย่างแน่นอน";
+  if (pct === 100)     msg = isEnglish ? "ยอดเยี่ยม! เชี่ยวชาญไวยากรณ์ภาษาอังกฤษระดับสูงแล้ว" : "เยี่ยมมาก! เข้าใจพลศาสตร์ของไหลอย่างแน่นอน";
   else if (pct >= 70)  msg = "ทำได้ดีมาก เก็บรายละเอียดข้อที่พลาดอีกนิดเดียว";
-  else if (pct >= 50)  msg = "พอใช้ได้ ลองทบทวนเนื้อหาแล้วกลับมาลุ้นคะแนนเต็ม";
-  else                 msg = "ไม่เป็นไร กลับไปอ่านเนื้อหาอีกรอบ แล้วลองใหม่นะ";
+  else if (pct >= 50)  msg = isEnglish ? "พอใช้ได้ ลองทบทวนเนื้อหาไวยากรณ์แล้วกลับมาลุ้นคะแนนเต็ม" : "พอใช้ได้ ลองทบทวนเนื้อหาแล้วกลับมาลุ้นคะแนนเต็ม";
+  else                 msg = isEnglish ? "ไม่เป็นไร กลับไปอ่านเนื้อหาไวยากรณ์อีกรอบ แล้วลองใหม่นะ" : "ไม่เป็นไร กลับไปอ่านเนื้อหาอีกรอบ แล้วลองใหม่นะ";
   resultMessage.textContent = msg;
 
   resultBox.scrollIntoView({ behavior: "smooth" });
