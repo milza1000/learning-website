@@ -561,6 +561,7 @@ function showQuizPage() {
   if (quizSection) quizSection.classList.add("active");
   if (lessonSection) lessonSection.classList.remove("active");
   window.scrollTo({ top: 0 });
+  loadSubTabState(currentSubTab);
   /* ถ้าตอนเปลี่ยนข้อ section ยังซ่อนอยู่ (วัดขนาดไม่ได้)
      ให้ติดตั้งชั้นวาดบนโจทย์ใหม่ตอนที่มาถึงหน้านี้ */
   if (typeof annoPendingSetup !== "undefined" && annoPendingSetup) setupAnnotateLayer();
@@ -642,16 +643,13 @@ function renderQuestion() {
   const q = quizData[currentIndex];
   answered = false; // เปิดสิทธิ์ให้ตอบข้อนี้ได้อีกครั้ง
 
-  /* ใช้ template string ประกอบ HTML :
-     แถบความคืบหน้า / เลขข้อ+คะแนน / โจทย์ / ภาพ(ถ้ามี) / ตัวเลือก / กล่องคำอธิบาย / ปุ่มถัดไป */
-  quizBox.innerHTML = `
-    <div class="progress-bar">
-      <div class="progress-fill" style="width:${(currentIndex / quizData.length) * 100}%"></div>
+  const questionContent = isEnglish ? `
+    <div class="question-container" style="padding: 24px;">
+      ${q.tag ? `<span class="tag-badge">${q.tag}</span>` : ""}
+      <h2 class="question-text">${q.question}</h2>
+      ${q.image ? `<div class="question-image">${q.image}</div>` : ""}
     </div>
-    <div class="quiz-meta">
-      <span>ข้อที่ ${currentIndex + 1} / ${quizData.length}</span>
-      <span>คะแนน : ${score}</span>
-    </div>
+  ` : `
     <!-- โซนที่วาด/ขีดเส้นได้ : ครอบคำถาม + ภาพประกอบ (มีทุกข้อ) -->
     <div class="annotate-zone">
       ${q.tag ? `<span class="tag-badge">${q.tag}</span>` : ""}
@@ -666,6 +664,19 @@ function renderQuestion() {
       <button id="anno-clear" class="tool-btn danger" hidden>ล้าง</button>
       <small class="annotate-hint">ขีดเส้นใต้ / เขียนชื่อตัวแปรบนโจทย์ได้ • ปิดโหมดวาดก่อนเลือกคำตอบ</small>
     </div>
+  `;
+
+  /* ใช้ template string ประกอบ HTML :
+     แถบความคืบหน้า / เลขข้อ+คะแนน / โจทย์ / ภาพ(ถ้ามี) / ตัวเลือก / กล่องคำอธิบาย / ปุ่มถัดไป */
+  quizBox.innerHTML = `
+    <div class="progress-bar">
+      <div class="progress-fill" style="width:${(currentIndex / quizData.length) * 100}%"></div>
+    </div>
+    <div class="quiz-meta">
+      <span>ข้อที่ ${currentIndex + 1} / ${quizData.length}</span>
+      <span>คะแนน : ${score}</span>
+    </div>
+    ${questionContent}
     <div class="choices">
       ${q.choices.map((choice, i) => `
         <button class="choice-btn" data-index="${i}">
@@ -1084,6 +1095,7 @@ let annoPendingSetup = false;  // รอติดตั้งใหม่เม�
 
 /* เรียกหลัง renderQuestion() : สร้างชั้นวาดให้โจทย์ข้อปัจจุบัน */
 function setupAnnotateLayer() {
+  if (isEnglish) return;
   annoCanvasEl = quizBox.querySelector(".annotate-canvas");
   if (!annoCanvasEl) {                 // กันเหนียว : ถ้าไม่พบ canvas ให้จบ
     annoPendingSetup = false;
