@@ -205,6 +205,17 @@ const subjects = [
     available: true,
   },
   {
+    id: "english",
+    title: "ภาษาอังกฤษ — ไวยากรณ์ระดับสูง",
+    desc: "Preparatory there, Gerunds (Perfect, Passive, Negative) และ Preparatory it (Subject & Object)",
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/>
+      <path d="M6 6h10M6 10h10"/>
+    </svg>`,
+    chips: ["4 หัวข้อหลัก", "Advanced Grammar"],
+    available: true,
+  },
+  {
     id: "chem",
     title: "เคมี — อัตราการเกิดปฏิกิริยา",
     desc: "อันดับปฏิกิริยา ปัจจัยที่มีผลต่ออัตรา และกำลังกึ่งชีวิต",
@@ -282,6 +293,10 @@ function openSubject(id) {
   if (!s || !s.available) return;
   if (id === "fluid") {
     window.location.href = "physics.html";
+    return;
+  }
+  if (id === "english") {
+    window.location.href = "english.html";
     return;
   }
   homeLogo.hidden = false;
