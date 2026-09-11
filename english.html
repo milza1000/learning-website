@@ -570,13 +570,13 @@
 
   <script src="script.js"></script>
   <script>
-    /* ระบบสลับแท็บ (Tabs Navigation) */
+    /* ระบบสลับแท็บ (Tabs Navigation) ในหน้า english.html */
     const tabLesson = document.getElementById("tab-lesson");
     const tabQuiz = document.getElementById("tab-quiz");
     const lessonSection = document.getElementById("lesson-section");
     const quizSection = document.getElementById("quiz-section");
 
-    if (tabLesson && tabQuiz) {
+    if (tabLesson && tabQuiz && lessonSection && quizSection) {
       tabLesson.addEventListener("click", () => {
         tabLesson.classList.add("active");
         tabQuiz.classList.remove("active");
