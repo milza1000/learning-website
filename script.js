@@ -358,24 +358,67 @@ const englishQuizData = {
 const isEnglish = window.location.pathname.includes("english.html");
 let quizData = isEnglish ? englishQuizData.general : quizDataFluid;
 
+let currentSubTab = "general";
+const subTabStates = {
+  general: {
+    currentIndex: 0,
+    score: 0,
+    answered: false,
+    isFinished: false
+  },
+  exam: {
+    currentIndex: 0,
+    score: 0,
+    answered: false,
+    isFinished: false
+  }
+};
+
 const subTabGeneral = document.getElementById("sub-tab-general");
 const subTabExam = document.getElementById("sub-tab-exam");
+
+function saveCurrentSubTabState() {
+  if (!subTabGeneral || !subTabExam) return;
+  subTabStates[currentSubTab].currentIndex = currentIndex;
+  subTabStates[currentSubTab].score = score;
+  subTabStates[currentSubTab].answered = answered;
+  subTabStates[currentSubTab].isFinished = !resultBox.hidden;
+}
+
+function loadSubTabState(tabName) {
+  currentSubTab = tabName;
+  currentIndex = subTabStates[tabName].currentIndex;
+  score = subTabStates[tabName].score;
+  answered = subTabStates[tabName].answered;
+  
+  if (subTabStates[tabName].isFinished) {
+    showResult();
+  } else {
+    resultBox.hidden = true;
+    quizBox.hidden = false;
+    renderQuestion();
+  }
+}
 
 if (subTabGeneral && subTabExam) {
   subTabGeneral.addEventListener("click", (e) => {
     e.preventDefault();
+    if (currentSubTab === "general") return;
+    saveCurrentSubTabState();
     subTabGeneral.classList.add("active");
     subTabExam.classList.remove("active");
     quizData = englishQuizData.general;
-    resetQuiz();
+    loadSubTabState("general");
   });
 
   subTabExam.addEventListener("click", (e) => {
     e.preventDefault();
+    if (currentSubTab === "exam") return;
+    saveCurrentSubTabState();
     subTabExam.classList.add("active");
     subTabGeneral.classList.remove("active");
     quizData = englishQuizData.exam;
-    resetQuiz();
+    loadSubTabState("exam");
   });
 }
 
@@ -714,6 +757,13 @@ function showResult() {
 function resetQuiz() {
   currentIndex = 0;
   score = 0;
+  answered = false;
+  if (subTabGeneral && subTabExam) {
+    subTabStates[currentSubTab].currentIndex = 0;
+    subTabStates[currentSubTab].score = 0;
+    subTabStates[currentSubTab].answered = false;
+    subTabStates[currentSubTab].isFinished = false;
+  }
   resultBox.hidden = true;     // ซ่อนหน้าสรุป
   quizBox.hidden = false;      // กลับไปโชว์คำถาม
   renderQuestion();

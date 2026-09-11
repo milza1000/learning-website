@@ -156,36 +156,7 @@
 
   </main>
 
-  <!-- พื้นที่ทดเลขและวาดรูป -->
-  <button id="pad-toggle" class="pad-toggle">พื้นที่ทดเลข</button>
-  <aside id="scratchpad" aria-hidden="true">
-    <div class="pad-head">
-      <h3>พื้นที่ทดเลขและวาดรูป</h3>
-      <button id="pad-close" class="pad-close" aria-label="ปิด">×</button>
-    </div>
-    <div class="toolbar">
-      <button id="pen-btn" class="tool-btn active">ปากกา</button>
-      <button id="eraser-btn" class="tool-btn">ยางลบ</button>
-      <label class="size-control">ขนาด
-        <input type="range" id="brush-size" min="1" max="30" value="3" />
-        <span id="size-value">3</span>
-      </label>
-      <span class="swatches">
-        <button class="swatch active" data-color="#1e293b" style="background:#1e293b" aria-label="สีดำ"></button>
-        <button class="swatch" data-color="#dc2626" style="background:#dc2626" aria-label="สีแดง"></button>
-        <button class="swatch" data-color="#2563eb" style="background:#2563eb" aria-label="สีน้ำเงิน"></button>
-        <button class="swatch" data-color="#16a34a" style="background:#16a34a" aria-label="สีเขียว"></button>
-      </span>
-      <button id="undo-btn" class="tool-btn">ย้อนกลับ</button>
-      <button id="clear-btn" class="tool-btn danger">ล้าง</button>
-    </div>
-    <canvas id="sketch-canvas"></canvas>
-    <label class="type-label" for="calc-editor">พิมพ์ทดโน้ตได้เลย</label>
-    <div id="calc-editor" class="calc-editor" contenteditable="true" spellcheck="false"
-      data-placeholder="พิมพ์โน้ตหรือบันทึกช่วยจำที่นี่..."></div>
-  </aside>
 
-  <div id="brush-cursor" hidden></div>
 
   <!-- ส่วนท้ายเว็บ -->
   <footer class="site-footer">
