@@ -634,18 +634,14 @@
       subTabGeneral.addEventListener("click", () => {
         subTabGeneral.classList.add("active");
         subTabExam.classList.remove("active");
-        quizGeneralPanel.classList.add("active");
         quizGeneralPanel.style.display = "block";
-        quizExamPanel.classList.remove("active");
         quizExamPanel.style.display = "none";
       });
 
       subTabExam.addEventListener("click", () => {
         subTabExam.classList.add("active");
         subTabGeneral.classList.remove("active");
-        quizExamPanel.classList.add("active");
         quizExamPanel.style.display = "block";
-        quizGeneralPanel.classList.remove("active");
         quizGeneralPanel.style.display = "none";
       });
     }
