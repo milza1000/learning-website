@@ -305,18 +305,22 @@ function openSubject(id) {
 }
 
 function showLessonPage() {
-  homeSection.classList.remove("active");   // กันค้างจากหน้าแรก
-  navTabs.hidden = false;                   // กันแท็บหายถ้าเรียกข้ามลำดับ
-  tabLesson.classList.add("active");   tabQuiz.classList.remove("active");
-  lessonSection.classList.add("active"); quizSection.classList.remove("active");
+  if (homeSection) homeSection.classList.remove("active");   // กันค้างจากหน้าแรก
+  if (navTabs) navTabs.hidden = false;                   // กันแท็บหายถ้าเรียกข้ามลำดับ
+  if (tabLesson) tabLesson.classList.add("active");
+  if (tabQuiz) tabQuiz.classList.remove("active");
+  if (lessonSection) lessonSection.classList.add("active");
+  if (quizSection) quizSection.classList.remove("active");
   window.scrollTo({ top: 0 });         // เลื่อนกลับขึ้นบนสุดให้ผู้ใช้
 }
 
 function showQuizPage() {
-  homeSection.classList.remove("active");
-  navTabs.hidden = false;
-  tabQuiz.classList.add("active");     tabLesson.classList.remove("active");
-  quizSection.classList.add("active"); lessonSection.classList.remove("active");
+  if (homeSection) homeSection.classList.remove("active");
+  if (navTabs) navTabs.hidden = false;
+  if (tabQuiz) tabQuiz.classList.add("active");
+  if (tabLesson) tabLesson.classList.remove("active");
+  if (quizSection) quizSection.classList.add("active");
+  if (lessonSection) lessonSection.classList.remove("active");
   window.scrollTo({ top: 0 });
   /* ถ้าตอนเปลี่ยนข้อ section ยังซ่อนอยู่ (วัดขนาดไม่ได้)
      ให้ติดตั้งชั้นวาดบนโจทย์ใหม่ตอนที่มาถึงหน้านี้ */
