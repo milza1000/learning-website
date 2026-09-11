@@ -1,19 +1,93 @@
 <!DOCTYPE html>
 <!-- ============================================================
-     english.html : สรุปเนื้อหาไวยากรณ์ภาษาอังกฤษระดับสูง
+     english.html : สรุปเนื้อหาไวยากรณ์ภาษาอังกฤษระดับสูง + แบบฝึกหัด
      ============================================================ -->
 <html lang="th">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="color-scheme" content="light dark" />
-  <title>ไวยากรณ์ภาษาอังกฤษระดับสูง | สรุปบทเรียน</title>
+  <title>ไวยากรณ์ภาษาอังกฤษระดับสูง | สรุปบทเรียนและแบบฝึกหัด</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="style.css" />
+  <style>
+    /* สไตล์เพิ่มเติมสำหรับส่วนแบบฝึกหัดและการเฉลยแบบพับได้ */
+    .quiz-container {
+      margin-top: 40px;
+    }
+    .quiz-section-title {
+      font-size: 1.5rem;
+      color: var(--accent);
+      margin: 32px 0 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--border-color, #e2e8f0);
+    }
+    .question-card {
+      background: var(--card-bg, #ffffff);
+      border: 1px solid var(--border-color, #e2e8f0);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    }
+    .question-card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 12px;
+      color: var(--text-main);
+    }
+    .question-card .tag-badge {
+      display: inline-block;
+      background: rgba(37, 99, 235, 0.1);
+      color: var(--accent);
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 99px;
+      margin-bottom: 10px;
+    }
+    .options-list {
+      list-style: none;
+      padding: 0;
+      margin: 12px 0 16px;
+    }
+    .options-list li {
+      padding: 8px 12px;
+      margin-bottom: 6px;
+      background: var(--bg-secondary, #f8fafc);
+      border: 1px solid var(--border-color, #e2e8f0);
+      border-radius: 8px;
+      font-size: 0.95rem;
+    }
+    .explanation-toggle {
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-family: 'Prompt', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .explanation-toggle:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+    .explanation-box {
+      margin-top: 12px;
+      padding: 16px;
+      background: rgba(16, 185, 129, 0.08);
+      border-left: 4px solid #10b981;
+      border-radius: 0 8px 8px 0;
+      font-size: 0.95rem;
+      color: var(--text-main);
+    }
+  </style>
 </head>
 
 <body>
@@ -21,7 +95,7 @@
   <!-- ส่วนหัวของเว็บ -->
   <header class="site-header">
     <h1>ไวยากรณ์ภาษาอังกฤษระดับสูง</h1>
-    <p>สรุปเนื้อหาไวยากรณ์ขั้นสูง • พร้อมโครงสร้างและตัวอย่างประโยค</p>
+    <p>สรุปเนื้อหาไวยากรณ์ขั้นสูง • พร้อมแบบฝึกหัดและเฉลยละเอียด</p>
   </header>
 
   <!-- ปุ่มโลโก้ "หน้าแรก" : กลับหน้าหลัก index.html -->
@@ -123,6 +197,189 @@
         </div>
       </article>
 
+      <!-- ==================== ส่วนแบบฝึกหัดทบทวนไวยากรณ์ ==================== -->
+      <div class="quiz-container">
+        <h2 class="quiz-section-title">แบบฝึกหัดทบทวนไวยากรณ์ (English Quiz)</h2>
+
+        <!-- ระดับพื้นฐาน (General Quiz) -->
+        <h3 style="color: var(--text-main); margin: 24px 0 12px;">1. ระดับพื้นฐาน (General Quiz)</h3>
+
+        <!-- ข้อ 1 -->
+        <div class="question-card">
+          <span class="tag-badge">หัวข้อที่ 1: Preparatory There</span>
+          <h3>ข้อ 1: ______ believed to be a rare species of bird living in this remote forest.</h3>
+          <ul class="options-list">
+            <li>A) It is</li>
+            <li>B) There is</li>
+            <li>C) There are</li>
+            <li>D) They are</li>
+          </ul>
+          <button class="explanation-toggle" onclick="toggleExp('exp-g1')">ดูเฉลยและคำอธิบาย</button>
+          <div id="exp-g1" class="explanation-box" style="display: none;">
+            <b>ตอบ: B) There is</b><br>
+            <b>คำอธิบาย:</b> ใช้โครงสร้าง <i>There + is + believed to be + noun phrase</i> เนื่องจาก noun phrase (a rare species) เป็นเอกพจน์ จึงใช้ <i>is</i>
+          </div>
+        </div>
+
+        <!-- ข้อ 2 -->
+        <div class="question-card">
+          <span class="tag-badge">หัวข้อที่ 2: Gerund Forms</span>
+          <h3>ข้อ 2: She was proud of ______ the national competition last year.</h3>
+          <ul class="options-list">
+            <li>A) win</li>
+            <li>B) winning</li>
+            <li>C) having won</li>
+            <li>D) being won</li>
+          </ul>
+          <button class="explanation-toggle" onclick="toggleExp('exp-g2')">ดูเฉลยและคำอธิบาย</button>
+          <div id="exp-g2" class="explanation-box" style="display: none;">
+            <b>ตอบ: C) having won</b><br>
+            <b>คำอธิบาย:</b> หลังบุพบท (of) ต้องใช้ Gerund และเหตุการณ์ชนะเกิดขึ้นเสร็จสิ้นก่อนความภูมิใจในปัจจุบัน จึงใช้ Perfect Gerund (<i>having + V.3</i>)
+          </div>
+        </div>
+
+        <!-- ข้อ 3 -->
+        <div class="question-card">
+          <span class="tag-badge">หัวข้อที่ 2: Negative Gerund</span>
+          <h3>ข้อ 3: ______ the rules clearly caused a major misunderstanding among team members.</h3>
+          <ul class="options-list">
+            <li>A) Not explaining</li>
+            <li>B) Explaining not</li>
+            <li>C) Didn't explain</li>
+            <li>D) No explaining</li>
+          </ul>
+          <button class="explanation-toggle" onclick="toggleExp('exp-g3')">ดูเฉลยและคำอธิบาย</button>
+          <div id="exp-g3" class="explanation-box" style="display: none;">
+            <b>ตอบ: A) Not explaining</b><br>
+            <b>คำอธิบาย:</b> รูปปฏิเสธของ Gerund ต้องวางคำว่า <i>not</i> ไว้หน้า Gerund เสมอ (ห้ามใช้รูปย่อและห้ามไว้หลัง)
+          </div>
+        </div>
+
+        <!-- ข้อ 4 -->
+        <div class="question-card">
+          <span class="tag-badge">หัวข้อที่ 3: Preparatory It (Subject)</span>
+          ### <h3>ข้อ 4: ______ is essential to submit your application before the deadline.</h3>
+          <ul class="options-list">
+            <li>A) There</li>
+            <li>B) This</li>
+            <li>C) It</li>
+            <li>D) That</li>
+          </ul>
+          <button class="explanation-toggle" onclick="toggleExp('exp-g4')">ดูเฉลยและคำอธิบาย</button>
+          <div id="exp-g4" class="explanation-box" style="display: none;">
+            <b>ตอบ: C) It</b><br>
+            <b>คำอธิบาย:</b> ใช้ Preparatory <i>it</i> เป็นประธานเกริ่นนำ เมื่อประธานแท้จริงอยู่ข้างหลังคือ Infinitive phrase (<i>to submit...</i>)
+          </div>
+        </div>
+
+        <!-- ข้อ 5 -->
+        <div class="question-card">
+          <span class="tag-badge">หัวข้อที่ 4: Preparatory It (Object)</span>
+          <h3>ข้อ 5: I find ______ difficult to concentrate when listening to loud music.</h3>
+          <ul class="options-list">
+            <li>A) this</li>
+            <li>B) that</li>
+            <li>C) it</li>
+            <li>D) what</li>
+          </ul>
+          <button class="explanation-toggle" onclick="toggleExp('exp-g5')">ดูเฉลยและคำอธิบาย</button>
+          <div id="exp-g5" class="explanation-box" style="display: none;">
+            <b>ตอบ: C) it</b><br>
+            <b>คำอธิบาย:</b> ใช้ Preparatory <i>it</i> เป็นกรรมเกริ่นนำตามหลังกริยา (find) ก่อนตามด้วย Adjective (difficult) และ Infinitive phrase
+          </div>
+        </div>
+
+
+        <!-- ระดับสอบเข้าและเก็งข้อสอบสากล (Exam Prep) -->
+        <h3 style="color: var(--text-main); margin: 36px 0 12px;">2. ระดับสอบเข้าและเก็งข้อสอบสากล (Exam Prep)</h3>
+
+        <!-- ข้อ 6 -->
+        <div class="question-card">
+          <span class="tag-badge">แนวข้อสอบ: A-Level English</span>
+          <h3>ข้อ 6: Which of the following sentences is grammatically INCORRECT?</h3>
+          <ul class="options-list">
+            <li>A) There are reported to be several new planets discovered recently.</li>
+            <li>B) It is thought that there are thousands of stars in the galaxy.</li>
+            <li>C) There is believed that the ancient artifact dates back to 500 BC.</li>
+            <li>D) Thousands of species are thought to exist in the Amazon rainforest.</li>
+          </ul>
+          <button class="explanation-toggle" onclick="toggleExp('exp-e1')">ดูเฉลยและคำอธิบาย</button>
+          <div id="exp-e1" class="explanation-box" style="display: none;">
+            <b>ตอบ: C) There is believed that the ancient artifact dates back to 500 BC.</b><br>
+            <b>คำอธิบาย:</b> โครงสร้าง <i>Preparatory there</i> ห้ามตามด้วย <i>that-clause</i> เด็ดขาด (ต้องใช้ <i>It is believed that...</i> แทน) ข้อ C จึงผิดหลักไวยากรณ์
+          </div>
+        </div>
+
+        <!-- ข้อ 7 -->
+        <div class="question-card">
+          <span class="tag-badge">แนวข้อสอบ: TGAT English</span>
+          <h3>ข้อ 7: Due to her exceptional performance, she couldn't help ______ when the director offered her the leading role.</h3>
+          <ul class="options-list">
+            <li>A) cry</li>
+            <li>B) crying</li>
+            <li>C) being cried</li>
+            <li>D) having cried</li>
+          </ul>
+          <button class="explanation-toggle" onclick="toggleExp('exp-e2')">ดูเฉลยและคำอธิบาย</button>
+          <div id="exp-e2" class="explanation-box" style="display: none;">
+            <b>ตอบ: B) crying</b><br>
+            <b>คำอธิบาย:</b> สำนวน <i>couldn't help</i> ต้องตามด้วยกริยาเติม <i>-ing</i> (Gerund) เสมอ หมายถึง "อดไม่ได้ที่จะ..."
+          </div>
+        </div>
+
+        <!-- ข้อ 8 -->
+        <div class="question-card">
+          <span class="tag-badge">แนวข้อสอบ: IELTS Reading & Grammar</span>
+          <h3>ข้อ 8: Many scientists consider ______ vital to preserve endangered ecosystems before it is too late.</h3>
+          <ul class="options-list">
+            <li>A) this</li>
+            <li>B) it</li>
+            <li>C) that</li>
+            <li>D) what</li>
+          </ul>
+          <button class="explanation-toggle" onclick="toggleExp('exp-e3')">ดูเฉลยและคำอธิบาย</button>
+          <div id="exp-e3" class="explanation-box" style="display: none;">
+            <b>ตอบ: B) it</b><br>
+            <b>คำอธิบาย:</b> ใช้ Preparatory <i>it</i> เป็นกรรมรองรับโครงสร้าง <i>Subject + consider + it + Adj (vital) + to-infinitive (to preserve...)</i>
+          </div>
+        </div>
+
+        <!-- ข้อ 9 -->
+        <div class="question-card">
+          <span class="tag-badge">แนวข้อสอบ: Advanced University Entrance</span>
+          <h3>ข้อ 9: ______ denied that economic inflation has severely impacted small businesses nationwide.</h3>
+          <ul class="options-list">
+            <li>A) There is</li>
+            <li>B) It is</li>
+            <li>C) There are</li>
+            <li>D) It has</li>
+          </ul>
+          <button class="explanation-toggle" onclick="toggleExp('exp-e4')">ดูเฉลยและคำอธิบาย</button>
+          <div id="exp-e4" class="explanation-box" style="display: none;">
+            <b>ตอบ: B) It is</b><br>
+            <b>คำอธิบาย:</b> เมื่อตามด้วย <i>that-clause</i> (หรือละ <i>that</i>) ในรูปแบบ Passive ของกริยารายงาน จะต้องใช้ <i>It is denied that...</i> (ห้ามใช้ There is denied)
+          </div>
+        </div>
+
+        <!-- ข้อ 10 -->
+        <div class="question-card">
+          <span class="tag-badge">แนวข้อสอบ: IELTS Writing Structure</span>
+          <h3>ข้อ 10: Rather than blaming others, she took full responsibility for ______ the confidential report incorrectly.</h3>
+          <ul class="options-list">
+            <li>A) file</li>
+            <li>B) having filed</li>
+            <li>C) have filed</li>
+            <li>D) being filed</li>
+          </ul>
+          <button class="explanation-toggle" onclick="toggleExp('exp-e5')">ดูเฉลยและคำอธิบาย</button>
+          <div id="exp-e5" class="explanation-box" style="display: none;">
+            <b>ตอบ: B) having filed</b><br>
+            <b>คำอธิบาย:</b> หลังบุพบท (for) ต้องใช้ Gerund และการกระทำยื่นรายงานผิดเกิดขึ้นก่อนในอดีต จึงใช้ Perfect Gerund (<i>having + V.3</i>) เน้นย้ำความสมบูรณ์ของเหตุการณ์
+          </div>
+        </div>
+
+      </div>
+
     </section>
   </main>
 
@@ -132,5 +389,16 @@
   </footer>
 
   <script src="script.js"></script>
+  <script>
+    /* ฟังก์ชันเปิด-ปิดกล่องเฉลยแบบ Interactive Toggle */
+    function toggleExp(id) {
+      const box = document.getElementById(id);
+      if (box.style.display === "none" || box.style.display === "") {
+        box.style.display = "block";
+      } else {
+        box.style.display = "none";
+      }
+    }
+  </script>
 </body>
 </html>
