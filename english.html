@@ -253,8 +253,8 @@
 
         <!-- สลับแท็บย่อยในแบบฝึกหัด -->
         <nav class="tabs" id="quiz-sub-tabs" style="margin-bottom: 24px; position: static; box-shadow: none;">
-          <button id="sub-tab-general" class="tab active">แบบฝึกหัดทั่วไป (ข้อ 1-10)</button>
-          <button id="sub-tab-exam" class="tab">แบบฝึกหัดสอบเข้า / IELTS (ข้อ 11-20)</button>
+          <button id="sub-tab-general" class="tab active">แบบฝึกหัดทั่วไป (10 ข้อ)</button>
+          <button id="sub-tab-exam" class="tab">แบบฝึกหัดสอบเข้า / IELTS (10 ข้อ)</button>
         </nav>
 
         <!-- ==================== 1. ระดับพื้นฐาน (General Quiz) 10 ข้อ ==================== -->
@@ -635,18 +635,18 @@
         subTabGeneral.classList.add("active");
         subTabExam.classList.remove("active");
         quizGeneralPanel.classList.add("active");
-        quizGeneralPanel.hidden = false;
+        quizGeneralPanel.style.display = "block";
         quizExamPanel.classList.remove("active");
-        quizExamPanel.hidden = true;
+        quizExamPanel.style.display = "none";
       });
 
       subTabExam.addEventListener("click", () => {
         subTabExam.classList.add("active");
         subTabGeneral.classList.remove("active");
         quizExamPanel.classList.add("active");
-        quizExamPanel.hidden = false;
+        quizExamPanel.style.display = "block";
         quizGeneralPanel.classList.remove("active");
-        quizGeneralPanel.hidden = true;
+        quizGeneralPanel.style.display = "none";
       });
     }
 
